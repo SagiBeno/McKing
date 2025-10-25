@@ -1,19 +1,20 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Button, Card, Form, Row, Col } from 'react-bootstrap';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import LoginPage from './Pages/LoginPage';
+import OrderPage from './Pages/OrderPage';
 
 import './App.css';
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = data => {
     console.log(data)
-    setLoggedIn(data)
+    setLoggedIn(true)
   }
 
   return (
@@ -22,7 +23,8 @@ export default function App() {
         {/* TODO - solve task */}
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={loggedIn ? <Navigate to="" /> : <LoginPage onLogin={handleLogin} />} />
+            <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
+            <Route path='/order' element='<OrderPage />' />
             {/* <Route path="/(oldal)" element={<Oldal />} */}
           </Routes>
         </BrowserRouter>
