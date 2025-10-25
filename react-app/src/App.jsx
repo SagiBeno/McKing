@@ -24,7 +24,7 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
-            <Route path='/order' element='<OrderPage />' />
+            <Route path='/order' element={<OrderPage />} />
             {/* <Route path="/(oldal)" element={<Oldal />} */}
           </Routes>
         </BrowserRouter>
