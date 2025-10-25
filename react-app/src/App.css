@@ -40,3 +40,33 @@
 .read-the-docs {
   color: #888;
 }
+
+.deleteButton {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+
+.appendButton {
+  background-color: rgba(0, 255, 0, 0.6);
+}
+
+.orderButton {
+  margin: 5px;
+  border-radius: 5px;
+  padding: 0px;
+  padding-bottom: 3px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  width: 31px;
+  height: 31px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantityDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
