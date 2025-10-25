@@ -13,7 +13,6 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = data => {
-    console.log(data)
     setLoggedIn(true)
   }
 
@@ -25,7 +24,6 @@ export default function App() {
           <Routes>
             <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
             <Route path='/order' element={<OrderPage />} />
-            {/* <Route path="/(oldal)" element={<Oldal />} */}
           </Routes>
         </BrowserRouter>
       </Container>

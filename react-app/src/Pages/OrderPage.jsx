@@ -1,16 +1,15 @@
-import { useState } from 'react'
-import { Card } from "react-bootstrap";
+import { useEffect, useState } from 'react'
 import OrderComponent from '../Components/OrderComponent'
 
 export default function OrderPage() {
-    const [orderedItems, setOrderedItems] = useState()
+    const [order, setOrder] = useState()
 
-    const handleOreder = e => {
-        console.log('handleOrder: ', e);
+    const handleOreder = data => {
+        setOrder([...data])
     }
 
     return (
-        <div className='container'>
+        <div>
             <OrderComponent onOrder={handleOreder}/> 
         </div>
     )
