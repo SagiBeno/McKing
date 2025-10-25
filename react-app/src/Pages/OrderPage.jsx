@@ -6,7 +6,7 @@ export default function OrderPage() {
     const [orderedItems, setOrderedItems] = useState()
 
     const handleOreder = e => {
-        //console.log('handleOrder: ', e);
+        console.log('handleOrder: ', e);
     }
 
     return (
