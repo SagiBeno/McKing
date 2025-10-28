@@ -7,7 +7,9 @@ export default function LoginComponent(props) {
     const handleSubmit = e => {
         e.preventDefault()
         {/* TODO - Backend által jóváhagyott bejelentkezés*/}
+        setInvalidLogin(false)
         props.onLogin(true)
+
     }
 
     return (
@@ -22,18 +24,14 @@ export default function LoginComponent(props) {
             </Form.Group>
 
             <Row>
-                <Button id='loginButton' type="submit">
-                    Bejelentkezés
-                </Button>
+                <button type="submit" className="loginButton shadow">Bejelentkezés</button>
             </Row>
 
-            <Row className="mt-1">
-                <Button id='guestButton' onClick={() => props.onLogin(true)}>
-                    Rendelelés bejelentkezés nélkül
-                </Button>
+            <Row className="mt-3">
+                <button type="button" className="shadow" id='guestButton' onClick={() => props.onLogin(true)}>Rendelelés bejelentkezés nélkül</button>
             </Row>
-
-            {invalidLogin && <p className="text-danger mt-3">Helytelen felhasználónév cím vagy jelszó!</p>}
+            {invalidLogin && <p className="text-danger mt-3">Helytelen felhasználónév vagy jelszó!</p>}
+            <p className="mt-3">Nincs fiókja? <a href="/register">Regisztráljon</a></p>
         </Form>
     )
 }

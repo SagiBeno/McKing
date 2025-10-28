@@ -7,10 +7,13 @@ export default function LoginPage(props) {
     }
 
     return(
-        <Card className="shadow">
-            <Card.Body>
-                <LoginComponent onLogin={handleLogin} />
-            </Card.Body>
-        </Card>
+        <>
+            <h1>McKing - Bejelentkezés</h1>
+            <Card className="shadow">
+                <Card.Body>
+                    <LoginComponent onLogin={handleLogin} />
+                </Card.Body>
+            </Card>
+        </>
     )
 }
