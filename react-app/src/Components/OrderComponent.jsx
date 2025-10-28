@@ -147,9 +147,9 @@ export default function OrderComponent(props) {
                                 <Card.Img className="card-img" src={element.image}/>
                                 <Card.Text style={{fontSize: '20px', marginTop: '10px'}}>{element.price} Ft</Card.Text>
                                 <Card.Text className="quantityDiv">
-                                    <button type="button" className="deleteButton orderButton" value={element.id} onClick={handleRemove}>-</button>
+                                    <button type="button" className="deleteButton orderButton" value={element.id} onClick={handleRemove}><i class="fa-solid fa-minus"></i></button>
                                     <span style={{fontSize: '20px'}}>{element.quantity} db</span>
-                                    <button type="button" className="appendButton orderButton" value={element.id} onClick={handleAdd}>+</button>
+                                    <button type="button" className="appendButton orderButton" value={element.id} onClick={handleAdd}><i class="fa-solid fa-plus"></i></button>
                                 </Card.Text>
                             </Card>
                         </Col>
