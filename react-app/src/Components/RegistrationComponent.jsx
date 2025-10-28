@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { Button, Form, Row } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function RegistrationForm(props) {
     const [invalidRegistration, setInvalidRegistration] = useState('')
 
     const handleSubmit = e => {
         e.preventDefault()
-
+        
         const formElements = e.target.elements
         const username = formElements.formUsername.value
         const email = formElements.formEmail.value
@@ -14,12 +15,12 @@ export default function RegistrationForm(props) {
         const confirmPassword = formElements.formConfirmPassword.value
 
         if (password !== confirmPassword) {
-            setInvalidRegistration('Passwords do not match')
+            setInvalidRegistration('A jelszavak nem egyeznek!')
             return
         }
 
         else if(password.length < 8) {
-            setInvalidRegistration('Password must be at least 8 characters long')
+            setInvalidRegistration('A jelszónak legalább 8 karakter hosszúnak kell lennie!')
             return
         }
 
@@ -38,12 +39,13 @@ export default function RegistrationForm(props) {
             } 
             else{
                 const errorData = await response.json();
-                setInvalidRegistration(errorData.message || 'Registration failed');
+                setInvalidRegistration(errorData.message || 'Sikertelen regisztráció!');
             }
         })
         .catch(error => {
-            console.error('Error during registration:', error);
-        });
+            console.error('Hiba lépett fel a regisztrációs során:', error);
+        })
+        .finally(e => toast.success('Sikeres regisztráció!'))
         
     }
 
@@ -73,6 +75,8 @@ export default function RegistrationForm(props) {
             <p className="mt-3">
                 Rendelkezik fiókkal? <a href="/">Jelentkezzen be itt!</a>
             </p>
+            <ToastContainer position="top-center"/>
         </Form>
+        
     )
 }

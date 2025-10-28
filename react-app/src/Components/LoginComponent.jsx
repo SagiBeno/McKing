@@ -31,7 +31,7 @@ export default function LoginComponent(props) {
                 <button type="button" className="shadow" id='guestButton' onClick={() => props.onLogin(true)}>Rendelelés bejelentkezés nélkül</button>
             </Row>
             {invalidLogin && <p className="text-danger mt-3">Helytelen felhasználónév vagy jelszó!</p>}
-            <p className="mt-3">Nincs fiókja? <a href="/register">Regisztráljon</a></p>
+            <p className="mt-3">Nincs fiókja? <a href="/register">Regisztráljon itt!</a></p>
         </Form>
     )
 }

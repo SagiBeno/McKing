@@ -149,6 +149,16 @@ form {
   font-size: 20px;
 }
 
+a {
+ color: #0f2953;
+ text-decoration: none;
+}
+
+a:hover {
+  color: #ab1700;
+  font-weight: bold;
+}
+
 @media (max-width: 900px) {
     .card-img {
       width: 100%;
