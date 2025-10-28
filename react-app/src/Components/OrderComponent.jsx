@@ -147,16 +147,16 @@ export default function OrderComponent(props) {
                                 <Card.Img className="card-img" src={element.image} alt={element.name} title={element.title} loading="lazy"/>
                                 <Card.Text style={{fontSize: '20px', marginTop: '10px'}}>{element.price} Ft</Card.Text>
                                 <Card.Text className="quantityDiv">
-                                    <button type="button" className="deleteButton orderButton" value={element.id} onClick={handleRemove}><i class="fa-solid fa-minus"></i></button>
+                                    <button type="button" className="deleteButton orderButton" value={element.id} onClick={handleRemove}><i className="fa-solid fa-minus"></i></button>
                                     <span style={{fontSize: '20px'}}>{element.quantity} db</span>
-                                    <button type="button" className="appendButton orderButton" value={element.id} onClick={handleAdd}><i class="fa-solid fa-plus"></i></button>
+                                    <button type="button" className="appendButton orderButton" value={element.id} onClick={handleAdd}><i className="fa-solid fa-plus"></i></button>
                                 </Card.Text>
                             </Card>
                         </Col>
                     ))
                 }
             </Row>
-            <button type="submit" onClick={handleSubmit} className="orderSubmitButton">Rendelés leadása</button>
+            <button type="submit" onSubmit={handleSubmit} className="orderSubmitButton">Rendelés leadása</button>
             <ToastContainer position="top-center"/>
         </>
     )

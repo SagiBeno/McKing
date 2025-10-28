@@ -65,6 +65,10 @@
   color: white;
 }
 
+.orderButton i {
+  pointer-events: none;
+}
+
 .orderButton:hover {
   animation: pulse25 1.5s infinite;
 }
