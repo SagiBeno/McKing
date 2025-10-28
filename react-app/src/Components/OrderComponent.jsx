@@ -128,35 +128,39 @@ export default function OrderComponent(props) {
 
     return (
         <>
-            <Form.Control
-                type="text"
-                placeholder="Keresés étel alapján..."
-                className="mb-3"
-                name="filter"
-                id="filter"
-                onChange={(e) => handleOrderFilter(e.target.value)}
-            />
+            <Form onSubmit={handleSubmit}>
+                <Form.Control
+                    type="text"
+                    placeholder="Keresés étel alapján..."
+                    className="mb-3"
+                    name="filter"
+                    id="filter"
+                    onChange={(e) => handleOrderFilter(e.target.value)}
+                />
 
-            <Row>
+                <Row>
 
-                {
-                    filteredMenu.map( (element, key) => (
-                        <Col key={key} className="orderCardDiv">
-                            <Card key={key} className="mb-4 orderCard shadow">
-                                <Card.Title style={{fontWeight: 'bold', marginBottom: '10px', fontSize: "25px"}}>{element.name}</Card.Title>
-                                <Card.Img className="card-img" src={element.image} alt={element.name} title={element.title} loading="lazy"/>
-                                <Card.Text style={{fontSize: '20px', marginTop: '10px'}}>{element.price} Ft</Card.Text>
-                                <Card.Text className="quantityDiv">
-                                    <button type="button" className="deleteButton orderButton" value={element.id} onClick={handleRemove}><i className="fa-solid fa-minus"></i></button>
-                                    <span style={{fontSize: '20px'}}>{element.quantity} db</span>
-                                    <button type="button" className="appendButton orderButton" value={element.id} onClick={handleAdd}><i className="fa-solid fa-plus"></i></button>
-                                </Card.Text>
-                            </Card>
-                        </Col>
-                    ))
-                }
-            </Row>
-            <button type="submit" onSubmit={handleSubmit} className="orderSubmitButton">Rendelés leadása</button>
+                    {
+                        filteredMenu.map( (element, key) => (
+                            <Col key={key} className="orderCardDiv">
+                                <Card key={key} className="mb-4 orderCard shadow">
+                                    <Card.Body>
+                                        <Card.Title style={{fontWeight: 'bold', marginBottom: '10px', fontSize: "25px"}}>{element.name}</Card.Title>
+                                        <Card.Img className="card-img shadow" src={element.image} alt={element.name} title={element.title} loading="lazy"/>
+                                        <Card.Text style={{fontSize: '20px', marginTop: '10px'}}>{element.price} Ft</Card.Text>
+                                        <Card.Text className="quantityDiv">
+                                            <button type="button" className="deleteButton orderButton shadow" value={element.id} onClick={handleRemove}><i className="fa-solid fa-minus"></i></button>
+                                            <span style={{fontSize: '20px'}}>{element.quantity} db</span>
+                                            <button type="button" className="appendButton orderButton shadow" value={element.id} onClick={handleAdd}><i className="fa-solid fa-plus"></i></button>
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))
+                    }
+                </Row>
+                <button type="submit" className="orderSubmitButton shadow">Rendelés leadása</button>
+            </Form>
             <ToastContainer position="top-center"/>
         </>
     )

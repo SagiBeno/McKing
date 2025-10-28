@@ -10,6 +10,7 @@ export default function OrderPage() {
 
     return (
         <div>
+            <h1>McKing - Menü</h1>
             <OrderComponent onOrder={handleOreder}/> 
         </div>
     )
