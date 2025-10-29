@@ -12,7 +12,7 @@ export default function LoginComponent(props) {
         console.log(e.target.formUsername.value)
         console.log(e.target.formPassword.value)
 
-        fetch('http://localhost:3333/api/login', {
+        fetch('http://localhost:3333/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
