@@ -23,7 +23,7 @@ export default function StatusPage () {
 
     return(
         <>
-            <h1>McKing - Rendelésed:</h1>
+            <h1>Rendelésed:</h1>
             <Card>
                 <Card.Header>Rendelés azonosító: {orderId}</Card.Header>
                 <Card.Body>

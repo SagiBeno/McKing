@@ -171,6 +171,66 @@ a:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
+.navbar {
+  background-color: #ffd100 !important;
+}
+
+.sidebar {
+  margin-top: 56px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: rgba(255, 209, 0, 0.7);
+  padding-top: 60px;
+  overflow-x: hidden;
+  z-index: 1;
+  transition: all 0.7s;
+}
+
+#sidebarOpenButton {
+  margin-top: 60px;
+  margin-right: 10px;
+  padding: 5px;
+  position: fixed;
+  cursor: pointer;
+  top: 0;
+}
+
+#sidebarOpenButton:hover {
+  animation: pulse25 2s infinite;
+}
+
+#sidebarCloseButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+#sidebarCloseButton:hover {
+  animation: pulse25 2s infinite;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebarContent > button {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  width: 170px;
+  background-color: rgb(193, 26, 1);
+}
+
+.sidebarContent > button:hover {
+  animation: pulse05 1.5s infinite;
+}
+
 @media (max-width: 900px) {
     .card-img {
       width: 100%;
