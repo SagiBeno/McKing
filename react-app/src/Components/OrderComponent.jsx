@@ -25,9 +25,9 @@ export default function OrderComponent(props) {
         <Col className="orderCardDiv">
             <Card className="mb-4 orderCard shadow">
                 <Card.Body>
-                    <Card.Title style={{fontWeight: 'bold', marginBottom: '10px', fontSize: "25px"}}>{props.element.name}</Card.Title>
-                    <Card.Img className="card-img shadow" src={props.element.image} alt={props.element.name} title={props.element.title} loading="lazy"/>
-                    <Card.Text style={{fontSize: '20px', marginTop: '10px'}}>{props.element.price} Ft</Card.Text>
+                    <Card.Title style={{fontWeight: 'bold', marginBottom: '10px', fontSize: "25px"}}>{props.element.nev}</Card.Title>
+                    <Card.Img className="card-img shadow" src={props.element.kep} alt={props.element.nev} title={props.element.title} loading="lazy"/>
+                    <Card.Text style={{fontSize: '20px', marginTop: '10px'}}>{props.element.ar} Ft</Card.Text>
                     <Card.Text className="quantityDiv">
                         <button type="button" className="deleteButton orderButton shadow" onClick={handleRemove}><i className="fa-solid fa-minus"></i></button>
                         <span style={{fontSize: '20px'}}>{quantity} db</span>

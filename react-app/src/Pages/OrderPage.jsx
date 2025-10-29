@@ -13,7 +13,7 @@ export default function OrderPage(props) {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('http://localhost:3333/api/foods')
+        fetch('http://localhost:3333/foods')
         .then(async res =>{
             const data = await res.json()
 

@@ -1,4 +1,4 @@
-//npm i react-router-dom react-bootstrap bootstrap, react-toastify
+//npm i react-router-dom react-bootstrap bootstrap react-toastify
 
 import React, { useState } from 'react';
 import { Container, Button, Card, Form, Row, Col } from 'react-bootstrap';
@@ -17,25 +17,27 @@ import './App.css';
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
 
   const handleLogin = data => {
     setLoggedIn(true)
+    setUsername(data.username)
+    setRole(data.role)
   }
 
   return (
-    <>
-      {loggedIn && <NavbarComponent/>}
+    <BrowserRouter>
       <Container className="my-3">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
-            <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
-            <Route path='/order' element={<OrderPage />} />
-            <Route path='/orders' element={<OrdersPage />} />
-            <Route path='/status' element={<StatusPage />} />
-          </Routes>
-        </BrowserRouter>
+        {loggedIn && <NavbarComponent username={username} role={role} />}
+        <Routes>
+          <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
+          <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
+          <Route path='/order' element={<OrderPage />} />
+          <Route path='/orders' element={<OrdersPage />} />
+          <Route path='/status' element={<StatusPage />} />
+        </Routes>
       </Container>
-    </>  
+    </BrowserRouter>
   )
 }
