@@ -1,4 +1,4 @@
-//npm i react-router-dom react-bootstrap bootstrap, react-toastify
+//npm i react-router-dom react-bootstrap bootstrap react-toastify
 
 import React, { useState } from 'react';
 import { Container, Button, Card, Form, Row, Col } from 'react-bootstrap';
