@@ -19,7 +19,7 @@ export default function StatusPage () {
 
     return(
         <>
-            <h1>McKing - Rendelés állapota</h1>
+            <h1>Rendelés állapota</h1>
             {Object.values(order).map((item, idx) => (
                 <p key={idx}>
                     {item.name} - Mennyiség: {item.quantity}

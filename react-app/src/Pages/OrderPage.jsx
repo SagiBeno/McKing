@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import OrderComponent from '../Components/OrderComponent'
 import { useNavigate } from "react-router";
-import { Form, Row } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import Spinner from '../Components/Spinner';
+import SidebarComponent from '../Components/SidebarComponent';
 
 export default function OrderPage(props) {
     const [order, setOrder] = useState({})
@@ -71,13 +72,13 @@ export default function OrderPage(props) {
     }
 
     return (
-        <div>
-            <h1>McKing - Menü</h1>
-
+        <div style={{marginTop: '20px'}}>
+            <h1>Menü</h1>
+            <SidebarComponent />
             <Form onSubmit={handleSubmit}>
                 <Row>
 
-                    {
+                     {
                         foods.map( (element, key) => (
                             <OrderComponent key={key} element={element} onOrderChange={handleOrder} />
                         ))
@@ -85,6 +86,7 @@ export default function OrderPage(props) {
                 </Row>
                 <button type="submit" className="orderSubmitButton shadow">Rendelés leadása</button>
             </Form>
+
             {isLoading && <Spinner />}
             <ToastContainer position="top-center"/>
         </div>

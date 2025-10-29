@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function NavbarComponent() {
     return (
         <>
-            <Navbar bg="light" expand="lg" className="bg-body-tertiary" fixed="top">
+            <Navbar expand="lg" className="bg-body-tertiary" fixed="top">
                 <Container>
                     <Navbar.Brand>
                         <img

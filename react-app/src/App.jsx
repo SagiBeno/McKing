@@ -16,7 +16,7 @@ import NavbarComponent from './Components/NavbarComponent';
 import './App.css';
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   const handleLogin = data => {
     setLoggedIn(true)
