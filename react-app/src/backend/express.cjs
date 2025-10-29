@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-/* TODO - use cors, json middleware */
+/* use cors, json middleware */
 
 const conn = mysql.createConnection({
     host: "localhost",
@@ -47,6 +47,7 @@ app.get('/foods', (req, res) => {
     })
 });
 
+//TODO - megcsinálni a jelszót bcrypt-tel
 app.post("/login", (req, res) => {
     const {username, password} = req.body
     //console.log("Login data: ", username, password)
