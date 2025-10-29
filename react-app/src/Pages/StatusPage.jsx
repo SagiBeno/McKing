@@ -4,7 +4,7 @@ import { Card } from 'react-bootstrap';
 
 export default function StatusPage () {
     const location = useLocation();
-    const orderId = location.state.orderId || -1;
+    const orderId = location.state.orderId >= 0 ? location.state.orderId : -1;
     const [order, setOrder] = useState([]);
 
     useEffect(() => {
