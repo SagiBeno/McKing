@@ -11,6 +11,7 @@ import OrderPage from './Pages/OrderPage';
 import OrdersPage from './Pages/OrdersPage';
 import RegistrationPage from './Pages/RegistrationPage';
 import StatusPage from './Pages/StatusPage';
+import NavbarComponent from './Components/NavbarComponent';
 
 import './App.css';
 
@@ -22,7 +23,9 @@ export default function App() {
   }
 
   return (
-    <Container className="my-3">
+    <>
+      {loggedIn && <NavbarComponent/>}
+      <Container className="my-3">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
@@ -33,5 +36,6 @@ export default function App() {
           </Routes>
         </BrowserRouter>
       </Container>
+    </>  
   )
 }
