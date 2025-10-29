@@ -4,10 +4,10 @@ import { useNavigate } from "react-router";
 import { Form, Row } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 
-export default function OrderPage() {
+export default function OrderPage(props) {
     const [order, setOrder] = useState({})
     const [foods, setFoods] = useState([])
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch('http://localhost:3333/api/foods')
@@ -25,23 +25,19 @@ export default function OrderPage() {
 
 
     const handleOrder = data => {
-        console.log(data)
-        //navigate('/status');
+        const newOrder = { ...order }
+        newOrder[data.id] = data
+        setOrder(newOrder)
     }
 
     const handleSubmit = e => {
         e.preventDefault()
 
-        var ordered = []
-        order.map((element) => {
-            if (element.quantity != 0) {
-                ordered.push(element)
-            }
-        })
 
-        if (ordered.length > 0) {
-            props.onOrder(ordered)
+        if (order && Object.keys(order).length > 0) {
             toast.success('Rendelés leadása sikeresen megtörtént!')
+            //TODO backendnek küldés
+            navigate('/status')
         } else {
             toast.warning('Kérem válasszon ki ételt!');
         }
