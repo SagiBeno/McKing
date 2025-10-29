@@ -20,7 +20,11 @@ const conn = mysql.createConnection({
 })
 
 
-var users = [];
+var users = [
+    { id: 1, username: 'JohnDoe', password: '12345678', email: 'JohnDoe@example.com', role: 'admin'},
+    { id: 2, username: 'JaneDoe', password: '12345678', email: 'JaneDoe@example.com', role: 'user'}
+];
+
 var orders = [];
 
 
