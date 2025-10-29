@@ -3,10 +3,12 @@ import OrderComponent from '../Components/OrderComponent'
 import { useNavigate } from "react-router";
 import { Form, Row } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
+import Spinner from '../Components/Spinner';
 
 export default function OrderPage(props) {
     const [order, setOrder] = useState({})
     const [foods, setFoods] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -33,10 +35,8 @@ export default function OrderPage(props) {
     const handleSubmit = e => {
         e.preventDefault()
 
-        //TODO spinner
-
-
         if (order && Object.keys(order).length > 0) {
+            setIsLoading(true)
             fetch('http://localhost:3333/api/orders', {
                 method: 'POST',
                 headers: {
@@ -61,6 +61,7 @@ export default function OrderPage(props) {
             .catch(err => {
                 toast.error('Hiba történt a rendelés leadása során!')
             })
+            .finally(load => setIsLoading(false))
 
             
         } 
@@ -84,6 +85,7 @@ export default function OrderPage(props) {
                 </Row>
                 <button type="submit" className="orderSubmitButton shadow">Rendelés leadása</button>
             </Form>
+            {isLoading && <Spinner />}
             <ToastContainer position="top-center"/>
         </div>
     )
