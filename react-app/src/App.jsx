@@ -17,14 +17,18 @@ import './App.css';
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
 
   const handleLogin = data => {
     setLoggedIn(true)
+    setUsername(data.username)
+    setRole(data.role)
   }
 
   return (
     <>
-      {loggedIn && <NavbarComponent/>}
+      {loggedIn && <NavbarComponent username={username} role={role} />}
       <Container className="my-3">
         <BrowserRouter>
           <Routes>

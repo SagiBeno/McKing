@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 
 export default function StatusPage () {
     const location = useLocation();
-    const orderId = location.state.orderId || {};
+    const orderId = location.state.orderId || -1;
     const [order, setOrder] = useState([]);
 
     useEffect(() => {
+        if (orderId === -1) {
+            return;
+        }
         fetch(`http://localhost:3333/api/order/${orderId}`)
         .then(async res =>{
             const data = await res.json()
@@ -19,12 +23,20 @@ export default function StatusPage () {
 
     return(
         <>
-            <h1>McKing - Rendelés állapota</h1>
-            {Object.values(order).map((item, idx) => (
-                <p key={idx}>
-                    {item.name} - Mennyiség: {item.quantity}
-                </p>
-            ))}
+            <h1>McKing - Rendelésed:</h1>
+            <Card>
+                <Card.Header>Rendelés azonosító: {orderId}</Card.Header>
+                <Card.Body>
+                    {Object.values(order).map((item, idx) => (
+                        <p key={idx}>
+                            {item.name} - {item.quantity}db
+                        </p>
+                    ))}
+                </Card.Body>
+                <Card.Footer>Rendelésed állapota: </Card.Footer> 
+                            
+            </Card>
+
         </>
     )
 }
