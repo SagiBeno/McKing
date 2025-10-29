@@ -55,16 +55,17 @@ app.post("/login", (req, res) => {
         if(connectError) console.log(connectError)
         
         else {
-            conn.query(`select username, jelszo from felhasznalok where username="${username}" and jelszo="${password}"`,
+            conn.query(`select * from felhasznalok where username="${username}" and jelszo="${password}"`,
                 async (err, result, fields) => {
                     if (err) console.log(err)
 
                     else if (result) {
                         const users = [...result]
+                        console.log(users)
 
                         if(users.length < 1) res.status(300).json({invalidLogin: true})
                         else {
-                            res.status(200).json({invalidLogin: false, username: users[0].username})
+                            res.status(200).json({invalidLogin: false, username: users[0].username, role: users[0].tipus})
                         }
                     }
                 }

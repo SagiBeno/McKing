@@ -23,7 +23,7 @@ export default function NavbarComponent(props) {
                             <Nav.Link as={Link} to="/status">Rendelésed állapota</Nav.Link>
 
                             {(props.role === 'admin' || props.role === 'worker') && 
-                            <Nav.Link as={Link} to="/orders">Jelenglegi rendelések</Nav.Link>}
+                            <Nav.Link as={Link} to="/current-orders">Jelenglegi rendelések</Nav.Link>}
                             
                         </Nav>
 
