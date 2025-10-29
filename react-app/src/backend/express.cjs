@@ -13,7 +13,11 @@ app.use(cors());
 /* TODO - use cors, json middleware */
 
 
-var users = [];
+var users = [
+    { id: 1, username: 'JohnDoe', password: '12345678', email: 'JohnDoe@example.com', role: 'admin'},
+    { id: 2, username: 'JaneDoe', password: '12345678', email: 'JaneDoe@example.com', role: 'user'}
+];
+
 var orders = [];
 
 const etelek = [
@@ -80,6 +84,19 @@ const etelek = [
     ];
 
 /* TODO - introduce endpoints */
+
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+        res.status(200).json({ role: user.role });
+    } 
+    else {
+        res.sendStatus(401);
+    }
+});
 
 app.get('/api/foods', (req, res) => {
     res.json(etelek);
