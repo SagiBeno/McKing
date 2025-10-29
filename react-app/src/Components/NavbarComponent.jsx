@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container, NavLink } from "react-bootstrap"
+import { Navbar, Nav, Container } from "react-bootstrap"
 import { Link } from "react-router-dom";
 
 export default function NavbarComponent(props) {
@@ -19,16 +19,16 @@ export default function NavbarComponent(props) {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="me-auto">
-                            <Nav.Link href="/order">Új rendelés leadása</Nav.Link>
-                            <Nav.Link href="/status">Rendelésed állapota</Nav.Link>
+                            <Nav.Link as={Link} to="/order">Új rendelés leadása</Nav.Link>
+                            <Nav.Link as={Link} to="/status">Rendelésed állapota</Nav.Link>
 
                             {(props.role === 'admin' || props.role === 'worker') && 
-                            <Nav.Link href="/orders">Jelenglegi rendelések</Nav.Link>}
+                            <Nav.Link as={Link} to="/orders">Jelenglegi rendelések</Nav.Link>}
                             
                         </Nav>
 
                         <Navbar.Text>
-                            Bejelentkezve: <a href="/" className="logoutButton">{props.username}</a>
+                            Bejelentkezve: <Navbar.Brand as={Link} to="/" className="logoutButton" style={{padding:0}}>{props.username}</Navbar.Brand>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>

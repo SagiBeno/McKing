@@ -27,19 +27,17 @@ export default function App() {
   }
 
   return (
-    <>
-      {loggedIn && <NavbarComponent username={username} role={role} />}
+    <BrowserRouter>
       <Container className="my-3">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
-            <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
-            <Route path='/order' element={<OrderPage />} />
-            <Route path='/orders' element={<OrdersPage />} />
-            <Route path='/status' element={<StatusPage />} />
-          </Routes>
-        </BrowserRouter>
+        {loggedIn && <NavbarComponent username={username} role={role} />}
+        <Routes>
+          <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
+          <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
+          <Route path='/order' element={<OrderPage />} />
+          <Route path='/orders' element={<OrdersPage />} />
+          <Route path='/status' element={<StatusPage />} />
+        </Routes>
       </Container>
-    </>  
+    </BrowserRouter>
   )
 }
