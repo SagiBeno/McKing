@@ -85,6 +85,27 @@ app.get('/api/foods', (req, res) => {
     res.json(etelek);
 });
 
+app.get('/api/order/:id', (req, res) => {
+    const id = +req.params.id;
+    const order = orders[id];
+    
+    if (order) {
+        res.json(order);
+    } 
+    else {
+        res.status(404).json({ error: 'Rendelés nem található' });
+    }
+});
+
+app.get('/api/orders', (req, res) => {
+    res.json(orders);
+});
+
+app.post('/api/orders', (req, res) => {
+    const newOrder = req.body;
+    orders.push(newOrder);
+    res.status(201).json({ id: orders.length - 1 });
+});
 
 const port = 3333;
 app.listen(port, () => {

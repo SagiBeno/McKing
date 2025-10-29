@@ -26,19 +26,45 @@ export default function OrderPage(props) {
 
     const handleOrder = data => {
         const newOrder = { ...order }
-        newOrder[data.id] = data
+        newOrder[data.id] = { name: data.name, quantity: data.quantity }
         setOrder(newOrder)
     }
 
     const handleSubmit = e => {
         e.preventDefault()
 
+        //TODO spinner
+
 
         if (order && Object.keys(order).length > 0) {
-            toast.success('Rendelés leadása sikeresen megtörtént!')
-            //TODO backendnek küldés
-            navigate('/status')
-        } else {
+            fetch('http://localhost:3333/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(order)
+            })
+            .then(async res => {
+                if (res.ok) {
+                    toast.success('Rendelés leadása sikeresen megtörtént!')
+
+                    const data = await res.json()
+
+                    console.log(data)
+
+                    navigate('/status', { state: { orderId: data.id } })
+                } 
+                else {
+                    toast.error('Hiba történt a rendelés leadása során!')
+                }
+            })
+            .catch(err => {
+                toast.error('Hiba történt a rendelés leadása során!')
+            })
+
+            
+        } 
+        else {
             toast.warning('Kérem válasszon ki ételt!');
         }
     }
