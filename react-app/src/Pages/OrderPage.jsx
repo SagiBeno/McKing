@@ -9,32 +9,47 @@ import SidebarComponent from '../Components/SidebarComponent';
 export default function OrderPage(props) {
     const [order, setOrder] = useState({})
     const [foods, setFoods] = useState([])
+    const [filteredFoods, setFilteredFoods] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
+        setIsLoading(true)
         fetch('http://localhost:3333/foods')
         .then(async res =>{
             const data = await res.json()
 
             setFoods(data)
+            setFilteredFoods(data)
             console.log(data)
         })
         .catch(err => {
             console.log("Hiba az adatok lekérése során: ", err)
         })
+        .finally(load => setIsLoading(false))
+
+        console.log()
     }, [])
 
-
-
     const handleOrder = data => {
+        console.log('Data: ', data)
         const newOrder = { ...order }
         newOrder[data.id] = { name: data.name, quantity: data.quantity }
         setOrder(newOrder)
+        console.log('handleOrder: ', order)
+    }
+
+    const handleFilter = filter => {
+        var filteredFoodsArray = []
+        foods.map((element) => {
+            if (element.tipus == filter) filteredFoodsArray.push(element)
+        })
+        setFilteredFoods(filteredFoodsArray)
     }
 
     const handleSubmit = e => {
         e.preventDefault()
+        console.log('handleSubmit: ', order)
 
         if (order && Object.keys(order).length > 0) {
             setIsLoading(true)
@@ -74,12 +89,12 @@ export default function OrderPage(props) {
     return (
         <div style={{marginTop: '20px'}}>
             <h1>Menü</h1>
-            <SidebarComponent />
+            <SidebarComponent onClick={handleFilter} />
             <Form onSubmit={handleSubmit}>
                 <Row>
 
                      {
-                        foods.map( (element, key) => (
+                        filteredFoods.map( (element, key) => (
                             <OrderComponent key={key} element={element} onOrderChange={handleOrder} />
                         ))
                     }
