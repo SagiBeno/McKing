@@ -26,23 +26,25 @@ export default function OrderPage(props) {
         .catch(err => {
             console.log("Hiba az adatok lekérése során: ", err)
         })
-        .finally(load => setIsLoading(false))
-
-        console.log()
+        .finally(() => setIsLoading(false))
     }, [])
 
     const handleOrder = data => {
         const newOrder = { ...order }
         newOrder[data.id] = { name: data.name, quantity: data.quantity }
+
+        for (const key in newOrder) {
+            if (newOrder[key].quantity === 0) {
+                delete newOrder[key];
+            }
+        }
+
         setOrder(newOrder)
     }
 
     const handleFilter = filter => {
-        var filteredFoodsArray = []
-        foods.map((element) => {
-            if (element.tipus == filter) filteredFoodsArray.push(element)
-        })
-        setFilteredFoods(filteredFoodsArray)
+        if (!filter) return setFilteredFoods(foods);
+        setFilteredFoods(foods.filter(food => food.tipus === filter));
     }
 
     const handleSubmit = e => {
@@ -74,7 +76,7 @@ export default function OrderPage(props) {
             .catch(err => {
                 toast.error('Hiba történt a rendelés leadása során!')
             })
-            .finally(load => setIsLoading(false))
+            .finally(() => setIsLoading(false))
 
             
         } 

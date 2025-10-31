@@ -22,7 +22,7 @@ export default function StatusPage () {
         .catch(err => {
             console.log("Hiba az adatok lekérése során: ", err)
         })
-        .finally(load => setIsLoading(false))
+        .finally(() => setIsLoading(false))
     }, []);
 
     return(
