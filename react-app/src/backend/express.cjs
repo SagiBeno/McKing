@@ -88,8 +88,29 @@ app.get('/api/order/:id', (req, res) => {
     }
 });
 
-app.get('/api/orders', (req, res) => {
-    res.json(orders);
+app.get('/all-orders', (req, res) => {
+    conn.connect(connectError => {
+        if (connectError) console.log(connectError)
+
+        else {
+            conn.query(`
+                select rendelesek.rendelo, 
+                group_concat(concat(etelek.nev, ' (', rendelt_elemek.darab, ')') separator ', ') as rendelt_tetelek,
+                rendelesek.aktiv 
+                from rendelesek
+                inner join rendelt_elemek on rendelt_elemek.rendeles_id = rendelesek.id 
+                inner join etelek on rendelt_elemek.elem_id = etelek.id group by rendelesek.rendelo;
+                `,
+                (err, result, fields) => {
+                    if (err) res.sendStatus(500);
+                    else if (result) {
+                        const allOrders = [...result]
+
+                        res.status(200).json(allOrders);
+                    }
+                })
+        }
+    });
 });
 
 app.post('/order', (req, res) => {
@@ -97,46 +118,54 @@ app.post('/order', (req, res) => {
     
     console.log(newOrder);
 
-    if(newOrder.user != ""){
-        //bejelentkezett rendeles
-        conn.query(`insert into rendelesek (rendelo, aktiv) values ("${newOrder.user}", 1)`,
-            (err, result, fields) => {
-                if (err) {
-                    console.log(err);
-                    res.status(500).json({ error: 'Hiba történt a rendelés leadása során' });
-                } 
-                else {
-                    //rendeles leadva
+    conn.connect(connectError => {
+        if (connectError) console.log(connectError)
 
-                    //rendeles Id
-                    const orderId = result.insertId;
+        else{
+            if(newOrder.user != ""){
+                //bejelentkezett rendeles
+                conn.query(`insert into rendelesek (rendelo, aktiv) values ("${newOrder.user}", 1)`,
+                    (err, result, fields) => {
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(500);
+                        } 
+                        else {
+                            //rendeles leadva
 
-                    //rendeles tartalma beszurasa
+                            //rendeles Id
+                            const orderId = result.insertId;
 
-                    for (const key in newOrder.order) {
+                            //rendeles tartalma beszurasa
+
+                            for (const key in newOrder.order) {
 
 
-                        conn.query(`insert into rendelt_elemek (rendeles_id, elem_id, darab) values (${orderId}, "${key}", ${newOrder.order[key].quantity})`,
-                            (err, result, fields) => {
-                                if (err) {
-                                    res.status(500).json({ error: 'Hiba történt a rendelés leadása során' });
-                                }
+                                conn.query(`insert into rendelt_elemek (rendeles_id, elem_id, darab) values (${orderId}, "${key}", ${newOrder.order[key].quantity})`,
+                                    (err, result, fields) => {
+                                        if (err) {
+                                            res.sendStatus(500);
+                                        }
+                                    }
+                                );
+                                
+
                             }
-                        );
-                        
 
+                            res.status(200).json({ id: orderId }); //visszaadjuk a rendelés id-t
+
+                        }
                     }
-
-                    res.status(200).json({ id: orderId }); //visszaadjuk a rendelés id-t
-
-                }
+                );
             }
-        );
-    }
-    else{
-        //TODO vendeg rendeles
+            else{
+                //TODO vendeg rendeles
 
-    }
+            }
+        }
+    });
+
+    
 
     
 });
