@@ -33,9 +33,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
           <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
-          <Route path='/order' element={<OrderPage />} />
+          <Route path='/order' element={<OrderPage username={username} />} />
           <Route path='/orders' element={<OrdersPage />} />
-          <Route path='/status' element={<StatusPage />} />
+          <Route path='/status' element={<StatusPage username={username} />} />
         </Routes>
       </Container>
     </BrowserRouter>

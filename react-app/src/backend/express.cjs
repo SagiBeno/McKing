@@ -92,10 +92,53 @@ app.get('/api/orders', (req, res) => {
     res.json(orders);
 });
 
-app.post('/api/orders', (req, res) => {
+app.post('/order', (req, res) => {
     const newOrder = req.body;
-    orders.push(newOrder);
-    res.status(201).json({ id: orders.length - 1 });
+    
+    console.log(newOrder);
+
+    if(newOrder.user != ""){
+        //bejelentkezett rendeles
+        conn.query(`insert into rendelesek (rendelo, aktiv) values ("${newOrder.user}", 1)`,
+            (err, result, fields) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({ error: 'Hiba történt a rendelés leadása során' });
+                } 
+                else {
+                    //rendeles leadva
+
+                    //rendeles Id
+                    const orderId = result.insertId;
+
+                    //rendeles tartalma beszurasa
+
+                    for (const key in newOrder.order) {
+
+
+                        conn.query(`insert into rendelt_elemek (rendeles_id, elem_id, darab) values (${orderId}, "${key}", ${newOrder.order[key].quantity})`,
+                            (err, result, fields) => {
+                                if (err) {
+                                    res.status(500).json({ error: 'Hiba történt a rendelés leadása során' });
+                                }
+                            }
+                        );
+                        
+
+                    }
+
+                    res.status(200).json({ id: orderId }); //visszaadjuk a rendelés id-t
+
+                }
+            }
+        );
+    }
+    else{
+        //TODO vendeg rendeles
+
+    }
+
+    
 });
 
 const port = 3333;
