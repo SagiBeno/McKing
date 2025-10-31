@@ -1,53 +1,44 @@
 import React from 'react';
 
-const Spinner = ({ size = 50, dotSize = 8, dotCount = 8, color = 'blue' }) => {
-  const dots = [];
-
-  for (let i = 0; i < dotCount; i++) {
-    const angle = (360 / dotCount) * i;
-    const style = {
-      width: dotSize,
-      height: dotSize,
-      backgroundColor: color,
-      borderRadius: '50%',
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      marginTop: -dotSize / 2,
-      marginLeft: -dotSize / 2,
-      transform: `rotate(${angle}deg) translate(${size / 2}px) rotate(-${angle}deg)`,
-      animation: `spinner-spin 1.5s linear infinite`,
-      animationDelay: `${(1.5 / dotCount) * i}s`,
-    };
-    dots.push(<div key={i} style={style} />);
-  }
-
-  const containerStyle = {
-    position: 'relative',
-    width: size * 2,
-    height: size * 2,
-  };
-
+export default function Spinner () {
   return (
     <>
-      <div style={containerStyle} id="spinner">
-        {dots}
-      </div>
+      <div id='spinner'></div>
 
       <style>
         {`
-          @keyframes spinner-spin {
-            0% {
-              transform: rotate(0deg) translate(${size / 2}px) rotate(0deg);
+          #spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.5);
+          }
+
+          #spinner::after {
+            content: '';
+            width: 75px;
+            height: 75px;
+            border: 15px solid gray;
+            border-top-color: #ffd100;
+            border-radius: 50%;
+            animation: loading 0.75s ease infinite;
+          }
+
+          @keyframes loading {
+            from{
+              transform: rotate(0turn);
             }
-            100% {
-              transform: rotate(360deg) translate(${size / 2}px) rotate(-360deg);
+            to {
+              transform: rotate(1turn)
             }
           }
         `}
       </style>
     </>
   );
-};
-
-export default Spinner;
+}
