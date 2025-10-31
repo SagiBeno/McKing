@@ -32,11 +32,9 @@ export default function OrderPage(props) {
     }, [])
 
     const handleOrder = data => {
-        console.log('Data: ', data)
         const newOrder = { ...order }
         newOrder[data.id] = { name: data.name, quantity: data.quantity }
         setOrder(newOrder)
-        console.log('handleOrder: ', order)
     }
 
     const handleFilter = filter => {
@@ -49,7 +47,6 @@ export default function OrderPage(props) {
 
     const handleSubmit = e => {
         e.preventDefault()
-        console.log('handleSubmit: ', order)
 
         if (order && Object.keys(order).length > 0) {
             setIsLoading(true)
