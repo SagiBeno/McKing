@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-/* TODO - use cors, json middleware */
+/* use cors, json middleware */
 
 const conn = mysql.createConnection({
     host: "localhost",
@@ -18,12 +18,6 @@ const conn = mysql.createConnection({
     password: "",
     database: "mcking"
 })
-
-
-var users = [
-    { id: 1, username: 'JohnDoe', password: '12345678', email: 'JohnDoe@example.com', role: 'admin'},
-    { id: 2, username: 'JaneDoe', password: '12345678', email: 'JaneDoe@example.com', role: 'user'}
-];
 
 var orders = [];
 
@@ -41,7 +35,7 @@ app.get('/foods', (req, res) => {
                     if(err) console.log(err)
                     else if (result) {
                         const foods = [...result]
-                        console.log(foods)
+                        
                         if (foods.length < 1) res.sendStatus(300)
                         else {
                             res.status(200).json(foods)
@@ -52,6 +46,35 @@ app.get('/foods', (req, res) => {
         }
     })
 });
+
+//TODO - megcsinálni a jelszót bcrypt-tel
+app.post("/login", (req, res) => {
+    const {username, password} = req.body
+    //console.log("Login data: ", username, password)
+
+    conn.connect(connectError => {
+        if(connectError) console.log(connectError)
+        
+        else {
+            conn.query(`select * from felhasznalok where username="${username}" and jelszo="${password}"`,
+                async (err, result, fields) => {
+                    if (err) console.log(err)
+
+                    else if (result) {
+                        const users = [...result]
+                        console.log(users)
+
+                        if(users.length < 1) res.status(300).json({invalidLogin: true})
+                        else {
+                            res.status(200).json({invalidLogin: false, username: users[0].username, role: users[0].tipus})
+                        }
+                    }
+                }
+            )
+        }
+    })
+
+})
 
 app.get('/api/order/:id', (req, res) => {
     const id = +req.params.id;
