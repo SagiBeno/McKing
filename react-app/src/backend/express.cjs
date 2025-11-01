@@ -96,7 +96,7 @@ app.post("/register", (req, res) => {
                         }
                     }
                 }
-            )
+            );
         }
     })
 })
@@ -145,7 +145,7 @@ app.get('/all-orders', (req, res) => {
         inner join rendelt_elemek on rendelt_elemek.rendeles_id = rendelesek.id 
         inner join etelek on rendelt_elemek.elem_id = etelek.id 
         inner join felhasznalok on rendelesek.rendelo_id = felhasznalok.id
-        group by felhasznalok.username;
+        group by rendelesek.id;
         `, //id, rendelo, rendelt_tetelek, aktiv
         (err, result, fields) => {
             if (err) {
@@ -178,63 +178,61 @@ app.get('/workers', (req, res) => {
 
 app.post('/order', (req, res) => {
     const newOrder = req.body;
-    
 
-    if(newOrder.user != ""){
-        //bejelentkezett rendeles
-        let userId = -1;
-        conn.query(`select id from felhasznalok where username="${newOrder.user}"`,
-            (err, result, fields) => {
-                if (err) {
-                    res.sendStatus(500);
-                    console.log(err);
+    // basic validation
+    if (!newOrder || !newOrder.user) {
+        res.sendStatus(400);
+        return;
+    }
+
+    // bejelentkezett rendeles
+    conn.query(`select id from felhasznalok where username = ?`, [newOrder.user],
+        (err, result, fields) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+                return;
+            }
+
+            if (!result || result.length < 1) {
+                res.status(404).json({ error: 'User not found' });
+                return;
+            }
+
+            const userId = result[0].id;
+
+            conn.query(`insert into rendelesek (rendelo_id, aktiv) values (?, 1)`, [userId],
+                (err, insertResult, fields) => {
+                    if (err) {
+                        console.log(err);
+                        res.sendStatus(500);
+                        return;
+                    }
+
+                    const orderId = insertResult.insertId;
+
+                    // insert order items
+                    for (const key in newOrder.order) {
+                        const elemId = Number(key);
+                        const quantity = newOrder.order[key] && newOrder.order[key].quantity ? newOrder.order[key].quantity : 0;
+
+                        conn.query(
+                            `insert into rendelt_elemek (rendeles_id, elem_id, darab) values (?, ?, ?)`,
+                            [orderId, elemId, quantity],
+                            (err, qRes, qFields) => {
+                                if (err) {
+                                    console.log('Error inserting order item:', err);
+                                }
+                            }
+                        );
+                    }
+
+                    res.status(201).json({ id: orderId }); //visszaadjuk a rendelés id-t
                     return;
                 }
-
-                else{
-                    //felhasználó id
-                    userId = result[0].id;
-
-                    conn.query(`insert into rendelesek (rendelo_id, aktiv) values (${userId}, 1)`,
-                        (err, result, fields) => {
-                            if (err) {
-                                console.log(err);
-                                res.sendStatus(500);
-                                return;
-                            } 
-                            else {
-                                //rendeles leadva
-
-                                //rendeles Id
-                                const orderId = result.insertId;
-
-                                //rendeles tartalma beszurasa
-
-                                for (const key in newOrder.order) {
-
-                                    conn.query(`insert into rendelt_elemek (rendeles_id, elem_id, darab) values (${orderId}, "${key}", ${newOrder.order[key].quantity})`,
-                                        (err, result, fields) => {
-                                            if (err) {
-                                                res.sendStatus(500);
-                                                    return;
-                                            }
-                                        }
-                                    );
-                                }
-
-                                res.status(201).json({ id: orderId }); //visszaadjuk a rendelés id-t
-                                return;
-
-                            }
-                        }
-                    );
-                }
-            }
-        );
-    }
-    else{
-        //TODO vendeg rendeles
-    }
+            );
+        }
+    );
 });
 
 const port = 3333;
