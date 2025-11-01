@@ -19,32 +19,24 @@ const conn = mysql.createConnection({
     database: "mcking"
 })
 
-var orders = [];
-
-
-/* TODO - introduce endpoints */
+conn.connect(connectError => {
+    if (connectError) console.log(connectError)
+    else console.log("Adatbázishoz csatlakozva")
+});
 
 app.get('/foods', (req, res) => {
-    conn.connect(connectError => {
-        if (connectError) console.log(connectError)
-        
-        else {
-            
-            conn.query(`select * from etelek order by id asc`,
-                (err, result, fields) => {
-                    if(err) console.log(err)
-                    else if (result) {
-                        const foods = [...result]
-                        
-                        if (foods.length < 1) res.sendStatus(300)
-                        else {
-                            res.status(200).json(foods)
-                        }
-                    } 
-                })
-            
-        }
-    })
+    conn.query(`select * from etelek order by id asc`,
+        (err, result, fields) => {
+            if(err) console.log(err)
+            else if (result) {
+                const foods = [...result]
+                
+                if (foods.length < 1) res.sendStatus(300)
+                else {
+                    res.status(200).json(foods)
+                }
+            } 
+        })     
 });
 
 //TODO - megcsinálni a jelszót bcrypt-tel
@@ -52,27 +44,23 @@ app.post("/login", (req, res) => {
     const {username, password} = req.body
     //console.log("Login data: ", username, password)
 
-    conn.connect(connectError => {
-        if(connectError) console.log(connectError)
-        
-        else {
-            conn.query(`select * from felhasznalok where username="${username}" and jelszo="${password}"`,
-                async (err, result, fields) => {
-                    if (err) console.log(err)
+    conn.query(`select * from felhasznalok where username="${username}" and jelszo="${password}"`,
+        async (err, result, fields) => {
+            if (err) {
+                console.log(err)
+                res.sendStatus(500)
+            }
+            else if (result) {
+                const users = [...result]
+                console.log(users)
 
-                    else if (result) {
-                        const users = [...result]
-                        console.log(users)
-
-                        if(users.length < 1) res.status(300).json({invalidLogin: true})
-                        else {
-                            res.status(200).json({invalidLogin: false, username: users[0].username, role: users[0].tipus})
-                        }
-                    }
+                if(users.length < 1) res.status(300).json({invalidLogin: true})
+                else {
+                    res.status(200).json({invalidLogin: false, username: users[0].username, role: users[0].tipus})
                 }
-            )
+            }
         }
-    })
+    )
 
 })
 
@@ -113,26 +101,126 @@ app.post("/register", (req, res) => {
     })
 })
 
-app.get('/api/order/:id', (req, res) => {
+app.get('/order/:id', (req, res) => {
     const id = +req.params.id;
-    const order = orders[id];
-    
-    if (order) {
-        res.json(order);
-    } 
-    else {
-        res.status(404).json({ error: 'Rendelés nem található' });
-    }
+
+    conn.query(`
+    select 
+    rendelesek.id,
+    felhasznalok.username as rendelo, 
+    group_concat(concat(etelek.nev, ' (', rendelt_elemek.darab, ')') separator ', ') as rendelt_tetelek,
+    rendelesek.aktiv 
+    from rendelesek
+    inner join rendelt_elemek on rendelt_elemek.rendeles_id = rendelesek.id 
+    inner join etelek on rendelt_elemek.elem_id = etelek.id 
+    inner join felhasznalok on rendelesek.rendelo_id = felhasznalok.id
+    where rendelesek.id = ?
+    group by felhasznalok.username;
+    `,[id], //id, rendelo, rendelt_tetelek, aktiv
+        (err, result, fields) => {
+            if (err) { 
+                res.sendStatus(500);
+                return;
+            }
+            else if (result) {
+                const order = [...result][0]
+                res.status(200).json(order);
+                return;
+            }
+            else{
+                res.sendStatus(404);
+                return;
+            }
+        })
 });
 
-app.get('/api/orders', (req, res) => {
-    res.json(orders);
+app.get('/all-orders', (req, res) => {
+    conn.query(`
+        select 
+        rendelesek.id,
+        felhasznalok.username as rendelo, 
+        group_concat(concat(etelek.nev, ' (', rendelt_elemek.darab, ')') separator ', ') as rendelt_tetelek,
+        rendelesek.aktiv 
+        from rendelesek
+        inner join rendelt_elemek on rendelt_elemek.rendeles_id = rendelesek.id 
+        inner join etelek on rendelt_elemek.elem_id = etelek.id 
+        inner join felhasznalok on rendelesek.rendelo_id = felhasznalok.id
+        group by felhasznalok.username;
+        `, //id, rendelo, rendelt_tetelek, aktiv
+        (err, result, fields) => {
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+
+            else if (result) {
+                const allOrders = [...result]
+
+                res.status(200).json(allOrders);
+                return;
+            }
+        })
 });
 
-app.post('/api/orders', (req, res) => {
+app.post('/order', (req, res) => {
     const newOrder = req.body;
-    orders.push(newOrder);
-    res.status(201).json({ id: orders.length - 1 });
+    
+
+    if(newOrder.user != ""){
+        //bejelentkezett rendeles
+        let userId = -1;
+        conn.query(`select id from felhasznalok where username="${newOrder.user}"`,
+            (err, result, fields) => {
+                if (err) {
+                    res.sendStatus(500);
+                    console.log(err);
+                    return;
+                }
+
+                else{
+                    //felhasználó id
+                    userId = result[0].id;
+
+                    conn.query(`insert into rendelesek (rendelo_id, aktiv) values (${userId}, 1)`,
+                        (err, result, fields) => {
+                            if (err) {
+                                console.log(err);
+                                res.sendStatus(500);
+                                return;
+                            } 
+                            else {
+                                //rendeles leadva
+
+                                //rendeles Id
+                                const orderId = result.insertId;
+
+                                //rendeles tartalma beszurasa
+
+                                for (const key in newOrder.order) {
+
+                                    conn.query(`insert into rendelt_elemek (rendeles_id, elem_id, darab) values (${orderId}, "${key}", ${newOrder.order[key].quantity})`,
+                                        (err, result, fields) => {
+                                            if (err) {
+                                                res.sendStatus(500);
+                                                    return;
+                                            }
+                                        }
+                                    );
+                                }
+
+                                res.status(201).json({ id: orderId }); //visszaadjuk a rendelés id-t
+                                return;
+
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    }
+    else{
+        //TODO vendeg rendeles
+    }
 });
 
 const port = 3333;

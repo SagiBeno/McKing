@@ -43,7 +43,7 @@ export default function OrderPage(props) {
     }
 
     const handleFilter = filter => {
-        if (!filter) return setFilteredFoods(foods);
+        if (!filter || filter == 'Minden') return setFilteredFoods(foods);
         setFilteredFoods(foods.filter(food => food.tipus === filter));
     }
 
@@ -52,12 +52,13 @@ export default function OrderPage(props) {
 
         if (order && Object.keys(order).length > 0) {
             setIsLoading(true)
-            fetch('http://localhost:3333/api/orders', {
+            
+            fetch('http://localhost:3333/order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(order)
+                body: JSON.stringify({order: order, user: props.username})
             })
             .then(async res => {
                 if (res.ok) {
@@ -77,6 +78,7 @@ export default function OrderPage(props) {
                 toast.error('Hiba történt a rendelés leadása során!')
             })
             .finally(() => setIsLoading(false))
+            
 
             
         } 
