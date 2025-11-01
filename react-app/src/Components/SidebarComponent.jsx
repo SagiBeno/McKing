@@ -33,6 +33,7 @@ export default function SidebarComponent(props) {
                     <button type="button" onClick={filter} value='Desszertek'><i className="fa-solid fa-ice-cream fa-lg"></i> Desszertek</button>
                     <button type="button" onClick={filter} value='Köretek'><i className="fa-solid fa-plate-wheat fa-lg"></i> Köretek</button>
                     <button type="button" onClick={filter} value="Harapnivalók"><i className="fa-solid fa-drumstick-bite fa-lg"></i> Harapnivalók</button>
+                    <button type="button" onClick={filter} value="Minden">Teljes választék</button>
                 </div>
                 <span id="sidebarOpenButton" onClick={open} style={{display: openButton}}><i className="fa-solid fa-magnifying-glass fa-2x" style={{color: '#ab1700'}}></i></span>
             </div>

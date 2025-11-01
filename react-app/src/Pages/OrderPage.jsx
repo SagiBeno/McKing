@@ -43,7 +43,7 @@ export default function OrderPage(props) {
     }
 
     const handleFilter = filter => {
-        if (!filter) return setFilteredFoods(foods);
+        if (!filter || filter == 'Minden') return setFilteredFoods(foods);
         setFilteredFoods(foods.filter(food => food.tipus === filter));
     }
 
