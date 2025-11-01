@@ -169,7 +169,7 @@ app.post('/order', (req, res) => {
     if(newOrder.user != ""){
         //bejelentkezett rendeles
         let userId = -1;
-        conn.query(`select id from felhasznalok where username="${newOrder.user}"`,
+        conn.query(`select id from felhasznalok where username= ?`, [newOrder.user],
             (err, result, fields) => {
                 if (err) {
                     res.sendStatus(500);
@@ -181,7 +181,7 @@ app.post('/order', (req, res) => {
                     //felhasználó id
                     userId = result[0].id;
 
-                    conn.query(`insert into rendelesek (rendelo_id, aktiv) values (${userId}, 1)`,
+                    conn.query(`insert into rendelesek (rendelo_id, aktiv) values (?, 1)`, [userId],
                         (err, result, fields) => {
                             if (err) {
                                 console.log(err);
@@ -198,7 +198,7 @@ app.post('/order', (req, res) => {
 
                                 for (const key in newOrder.order) {
 
-                                    conn.query(`insert into rendelt_elemek (rendeles_id, elem_id, darab) values (${orderId}, "${key}", ${newOrder.order[key].quantity})`,
+                                    conn.query(`insert into rendelt_elemek (rendeles_id, elem_id, darab) values (?, ?, ?)`, [orderId, key, newOrder.order[key].quantity],
                                         (err, result, fields) => {
                                             if (err) {
                                                 res.sendStatus(500);
