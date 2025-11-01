@@ -22,7 +22,7 @@ export default function OrderPage(props) {
 
             setFoods(data)
             setFilteredFoods(data)
-            console.log(data)
+            //console.log(data)
         })
         .catch(err => {
             console.log("Hiba az adatok lekérése során: ", err)
