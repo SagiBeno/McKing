@@ -12,7 +12,7 @@ import OrdersPage from './Pages/OrdersPage';
 import RegistrationPage from './Pages/RegistrationPage';
 import StatusPage from './Pages/StatusPage';
 import NavbarComponent from './Components/NavbarComponent';
-import NewWorkerPage from './Pages/NewWorkerPage';
+import WorkerPage from './Pages/WorkerPage';
 
 import './App.css';
 
@@ -37,7 +37,7 @@ export default function App() {
           <Route path='/order' element={<OrderPage username={username} />} />
           <Route path='/all-orders' element={<OrdersPage />} />
           <Route path='/status' element={<StatusPage username={username} />} />
-          <Route path='/new-worker' element={<NewWorkerPage />} />
+          <Route path='/worker' element={<WorkerPage />} />
         </Routes>
       </Container>
     </BrowserRouter>
