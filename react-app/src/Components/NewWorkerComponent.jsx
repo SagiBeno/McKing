@@ -61,7 +61,7 @@ export default function NewWorkerComponent() {
                     <input type="radio" name="workerType" id="workerType2" value='worker' defaultChecked />
                 </div>
 
-                <button type="submit" className="newWorkerButton m-1">Dolgozó felvétele</button>
+                <button type="submit" className="workerButton m-1">Dolgozó felvétele</button>
             </Form>
             <ToastContainer position="top-center" />
             {isLoading && <Spinner />}

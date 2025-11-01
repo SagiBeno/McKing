@@ -235,6 +235,37 @@ app.post('/order', (req, res) => {
     );
 });
 
+app.delete('/delete-worker', (req, res) => {
+    const data = req.body
+    const id = +data[0].id
+
+    if (!data || !id) {
+        res.sendStatus(400);
+        return;
+    }
+
+    conn.query(`
+        DELETE FROM felhasznalok
+        WHERE id = ?`,
+        [id],
+        (err, result, fiels) => {
+            if (err) {
+                console.log(err)
+                res.sendStatus(500)
+                return
+            }
+            else if (result) {
+                res.sendStatus(204)
+                return
+            }
+            else {
+                res.sendStatus(404)
+                return
+            }
+        }
+    )
+})
+
 const port = 3333;
 app.listen(port, () => {
   console.log(`Szerver mükszik itt: ${port}`);

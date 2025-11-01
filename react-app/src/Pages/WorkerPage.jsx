@@ -17,7 +17,7 @@ export default function WorkerPage() {
     return (
         <>
             <WorkersComponent />
-            <button type='button' onClick={handleShow} style={{margin: '20px auto 5px auto'}}>Dolgozó felvételéhez kattintson ide</button>
+            <button type='button' onClick={handleShow} style={{margin: '20px auto 5px auto'}} className='workerButton'>Dolgozó felvételéhez kattintson ide</button>
             {
                 showNewWorker && 
                 <Card className='shadow mt-3'>
