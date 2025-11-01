@@ -68,7 +68,7 @@ export default function OrderPage(props) {
 
                     console.log(data)
 
-                    //navigate('/status', { state: { orderId: data.id } })
+                    navigate('/status', { state: { orderId: data.id } })
                 } 
                 else {
                     toast.error('Hiba történt a rendelés leadása során!')
