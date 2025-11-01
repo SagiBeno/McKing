@@ -114,7 +114,7 @@ i {
   animation: pulse05 1.5s infinite;
 }
 
-.loginButton, .newWorkerButton {
+.loginButton, .workerButton {
   background-color: #ffd100;
   color: black;
   border: none;
@@ -124,7 +124,7 @@ i {
   margin: 0 auto;
 }
 
-.loginButton:hover, .newWorkerButton:hover {
+.loginButton:hover, .workerButton:hover {
   animation: pulse05 1.5s infinite;
   font-weight: bold;
 }

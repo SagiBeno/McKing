@@ -235,6 +235,76 @@ app.post('/order', (req, res) => {
     );
 });
 
+app.post('/new-worker', (req, res) => {
+    const { username, email, password, type } = req.body
+    
+   conn.connect(connectError => {
+        if (connectError) console.log(connectError)
+            
+        else {
+            conn.query(`SELECT username, email FROM felhasznalok WHERE username=? or email=?`,
+                [username, email],
+                (err, result, fields) => {
+                    if (err) console.log(err)
+                    else {
+                        const existingEmail = result.find(u => u.email === email)
+                        const existingUsername = result.find(u => u.username === username)
+
+                        if (existingEmail) res.status(409).json({error: "Email already registered!"})
+                        else if (existingUsername) res.status(409).json({error: "Username already exists!"})
+                        else {
+                            //const hashedPassword = bcrypt.hashSync(password, 12)
+
+                            conn.query(`INSERT INTO felhasznalok (email, username, jelszo, tipus) VALUES (?, ?, ?, ?)`,
+                                [email, username, password, type],
+                                (err, result, field) => {
+                                    if(err) console.log(err)
+                                    
+                                    else {
+                                        res.sendStatus(201)
+                                    }
+                                }
+                            )
+
+                        }
+                    }
+                }
+            );
+        }
+    })
+})
+
+app.delete('/delete-worker', (req, res) => {
+    const data = req.body
+    const id = +data[0].id
+
+    if (!data || !id) {
+        res.sendStatus(400);
+        return;
+    }
+
+    conn.query(`
+        DELETE FROM felhasznalok
+        WHERE id = ?`,
+        [id],
+        (err, result, fiels) => {
+            if (err) {
+                console.log(err)
+                res.sendStatus(500)
+                return
+            }
+            else if (result) {
+                res.sendStatus(204)
+                return
+            }
+            else {
+                res.sendStatus(404)
+                return
+            }
+        }
+    )
+})
+
 const port = 3333;
 app.listen(port, () => {
   console.log(`Szerver mükszik itt: ${port}`);

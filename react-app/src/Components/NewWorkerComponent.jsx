@@ -1,70 +1,100 @@
+import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { toast, ToastContainer } from 'react-toastify';
-import { useState } from "react";
-import Spinner from "./Spinner";
 
-export default function NewWorkerComponent() {
-    const [isLoading, setIsLoading] = useState(false)
+export default function NewWorkerComponent(props) {
+    const [formData, setFormData] = useState({
+        workerUsername: "",
+        workerEmail: "",
+        workerPassword: "",
+        workerConfirmPassword: "",
+        workerType: "worker",
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value,
+        });
+    };
 
     const handleData = e => {
         e.preventDefault();
+        
+        const username = formData.workerUsername
+        const email = formData.workerEmail
+        const password = formData.workerPassword
+        const passwordConfirm = formData.workerConfirmPassword
+        const workerType = formData.workerType
 
-        const formElements = e.target.elements
-        const username = formElements.workerUsername.value
-        const email = formElements.workerEmail.value
-        const password1 = formElements.workerPassword1.value
-        const password2 = formElements.workerPassword2.value
-        const workerType = formElements.workerType.value
-
-        if (password1 != password2) toast.warning('A jelszavak nem egyeznek!')
+        if (password != passwordConfirm) toast.warning('A jelszavak nem egyeznek!')
         else {
-            if (password1.length < 8) toast.warning('A jelszónak legalább nyolc karakter hosszúnak kell lennie!')
-        }
-
-        setIsLoading(true)
-        fetch('http://localhost:3333/', 
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username: username, email: email, password: password1 })
+            if (password.length < 8) toast.warning('A jelszónak legalább nyolc karakter hosszúnak kell lennie!')
+            else {
+                props.onNew({ username: username, email: email, password: password, type: workerType })
+                setFormData({
+                    workerUsername: "",
+                    workerEmail: "",
+                    workerPassword: "",
+                    workerConfirmPassword: "",
+                    workerType: "worker",
+                });
             }
-        )
-        .then(async (response) => {
-
-        })
-        .catch(console.warn)
-        .finally(setIsLoading(false))
+        }
     }
 
     return (
         <>
             <Form onSubmit={handleData} className="newWorkerComponent">
-                <label htmlFor="workerUsername">Felhasználónév:</label>
-                <input type="text" required name="workerUsername" id="workerUsername" placeholder="Felhasználónév"/>
+                <Form.Group className="mb-3" controlId="workerUsername">
+                    <Form.Label>Felhasználónév</Form.Label>
+                    <Form.Control type="text" placeholder="Felhasználónév" value={formData.workerUsername} onChange={handleChange} required/>
+                </Form.Group>
+                
+                <Form.Group className="mb-3" controlId="workerEmail">
+                    <Form.Label>E-mail cím</Form.Label>
+                    <Form.Control type="email" placeholder="minta@gmail.com" value={formData.workerEmail} onChange={handleChange} required/>
+                </Form.Group>
 
-                <label htmlFor="workerEmail">E-mail cím:</label>
-                <input type="email" required name="workerEmail" id="workerEmail" placeholder="minta@gmail.com"/>
-
-                <label htmlFor="workerPassword1">Jelszó: </label>
-                <input type="password" required name="workerPassword1" id="workerPassword1" placeholder="Jelszó"/>
-
-                <label htmlFor="workerPassword2">Jelszó ismétlése: </label>
-                <input type="password" required name="workerPassword2" id="workerPassword2" placeholder="Jelszó ismétlése"/>
+                <Form.Group className="mb-3" controlId="workerPassword">
+                    <Form.Label>Jelszó</Form.Label>
+                    <Form.Control type="password" placeholder="Jelszó" value={formData.workerPassword} onChange={handleChange} required/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="workerConfirmPassword">
+                    <Form.Label>Jelszó ismétlése</Form.Label>
+                    <Form.Control type="password" placeholder="Jelszó ismétlése" value={formData.workerConfirmPassword} onChange={handleChange} required/>
+                </Form.Group>
 
                 <div className="workerRadioButtons">
-                    <label htmlFor="workerType1">Admin</label>
-                    <input type="radio" name="workerType" id='workerType1' value='admin' style={{margin: '0px 10px 10px 0px'}} />
+                    <Form.Check
+                        inline
+                        label="Admin"
+                        name="workerType"
+                        type="radio"
+                        id="admin"
+                        value="admin"
+                        checked={formData.workerType === "admin"}
+                        onChange={(e) =>
+                            setFormData({ ...formData, workerType: e.target.value })
+                        }
+                    />
 
-                    <label htmlFor="workerType2">Dolgozó</label>
-                    <input type="radio" name="workerType" id="workerType2" value='worker' defaultChecked />
+                    <Form.Check
+                        inline
+                        label="Worker"
+                        name="workerType"
+                        type="radio"
+                        id="worker"
+                        value="worker"
+                        checked={formData.workerType === "worker"}
+                        onChange={(e) =>
+                            setFormData({ ...formData, workerType: e.target.value })
+                        }
+                    />
                 </div>
-
-                <button type="submit" className="newWorkerButton m-1">Dolgozó felvétele</button>
+                
+                <button type="submit" className="workerButton m-1">Dolgozó felvétele</button>
             </Form>
-            <ToastContainer position="top-center" />
-            {isLoading && <Spinner />}
         </>    
     )
 }
