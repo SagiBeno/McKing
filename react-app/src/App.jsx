@@ -28,8 +28,8 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Container className="my-3">
-        {loggedIn && <NavbarComponent username={username} role={role} />}
+      <Container style={{marginTop: '35px'}}>
+        {loggedIn && <NavbarComponent username={username} role={role}/>}
         <Routes>
           <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
           <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
