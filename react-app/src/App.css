@@ -65,7 +65,7 @@
   color: white;
 }
 
-.orderButton i {
+i {
   pointer-events: none;
 }
 
@@ -243,16 +243,19 @@ a:hover {
 }
 
 .tableWrapper {
-  max-width: 500px;
-  overflow-x: scroll;
+  max-width: 700px;
+  overflow-x: hidden;
 }
 
 #workerDeleteButton {
   color: red;
   border: none;
-  background-color: white;
+  background: none;
   padding: 0px;
-  animation: pulse05 1.5s infinite;
+}
+
+#workerDeleteButton:hover {
+  animation: pulse25 1.5s infinite;
 }
 
 @media (max-width: 900px) {
@@ -260,6 +263,10 @@ a:hover {
       width: 100%;
       height: 30vw;
       object-fit: cover;
+    }
+
+    .tableWrapper {
+      overflow-x: scroll;
     }
 }
 

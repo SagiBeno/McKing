@@ -162,6 +162,20 @@ app.get('/all-orders', (req, res) => {
         })
 });
 
+app.get('/workers', (req, res) => {
+    conn.query(`
+        SELECT * FROM felhasznalok
+        WHERE tipus='admin' OR tipus='worker'
+    `, (err, result, fields) => {
+        const workers = [...result]
+                
+        if (workers.length < 1) res.sendStatus(300)
+        else {
+            res.status(200).json([...workers])
+        }
+    })
+})
+
 app.post('/order', (req, res) => {
     const newOrder = req.body;
     

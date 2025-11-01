@@ -7,40 +7,51 @@ export default function WorkersComponent() {
     const [workers, setWorkers] = useState([])
 
     useEffect(() => {
+        setIsLoading(true)
         getData()
     }, [])
 
     const getData = () => {
-        fetch('http://localhost:3333/workers', {method: 'GET'})
-        .then()
+        fetch('http://localhost:3333/workers')
+        .then(async res => {
+            const data = await res.json()
+            setWorkers(data)
+        })
         .catch(console.warn)
-        .finally()
+        .finally(() => setIsLoading(false))
     }
 
-    const handleDelete = data => {
-
+    const handleDelete = e => {
+        // TODO - DELETE
     }
 
     return (
         <>
             <div className="tableWrapper">
-                <Table>
+                <Table className="responsive table-striped table-hover">
+                    <caption style={{captionSide: 'top', textAlign: 'center', color: 'black', fontWeight: 'bold'}}>Dolgozók listája</caption>
                     <thead>
                         <tr>
-                            <th>Felhasználónév</th>
-                            <th>E-mail cím</th>
-                            <th>Típus</th>
-                            <th>Dolgozó törlése</th>
+                            <th className="align-middle">ID</th>
+                            <th className="align-middle">Felhasználónév</th>
+                            <th className="align-middle">E-mail cím</th>
+                            <th className="align-middle">Típus</th>
+                            <th className="align-middle">Dolgozó törlése</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>John</td>
-                            <td>minta@gmail.com</td>
-                            <td>Admin</td>
-                            <td><button type="button" onClick={handleDelete} id="workerDeleteButton"><i className="fa-solid fa-trash fa-lg"></i></button></td>
-                        </tr>
+                        {
+                            workers.map((element, idx) => (
+                                <tr key={idx}>
+                                    <td className="align-middle" style={{textAlign: 'left'}}>{element.id}</td>
+                                    <td className="align-middle" style={{textAlign: 'left'}}>{element.username}</td>
+                                    <td className="align-middle" style={{textAlign: 'left'}}>{element.email}</td>
+                                    <td className="align-middle" style={{textAlign: 'left'}}>{element.tipus}</td>
+                                    <td className="align-middle" style={{textAlign: 'center'}}><button value={element.id} type="button" onClick={handleDelete} id="workerDeleteButton"><i className="fa-solid fa-trash fa-lg"></i></button></td>
+                                </tr>
+                            ))
+                        }
                     </tbody>
                 </Table>
             </div>
