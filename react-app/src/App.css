@@ -114,17 +114,17 @@
   animation: pulse05 1.5s infinite;
 }
 
-.loginButton {
+.loginButton, .newWorkerButton {
   background-color: #ffd100;
   color: black;
   border: none;
   font-size: 20px;
   border-radius: 10px;
-  width: 260px;
+  max-width: 260px;
   margin: 0 auto;
 }
 
-.loginButton:hover {
+.loginButton:hover, .newWorkerButton:hover {
   animation: pulse05 1.5s infinite;
   font-weight: bold;
 }
@@ -218,6 +218,28 @@ a:hover {
 
 .sidebarContent > button:hover {
   animation: pulse05 1.5s infinite;
+}
+
+.newWorkerComponent {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.newWorkerComponent > input {
+  margin-bottom: 15px;
+  background-color: white;
+  padding: 5px;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid #ffd100;
+}
+
+.newWorkerComponent > input:focus-visible {
+  border: 3px solid #0f2953;
 }
 
 @media (max-width: 900px) {
