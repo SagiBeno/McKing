@@ -19,6 +19,7 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
+  const [lastOrderId, setLastOrderId] = useState(null);
 
   const handleLogin = data => {
     setLoggedIn(true)
@@ -33,9 +34,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
           <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
-          <Route path='/order' element={<OrderPage username={username} />} />
+          <Route path='/order' element={<OrderPage username={username} setLastOrderId={setLastOrderId} />} />
           <Route path='/all-orders' element={<OrdersPage />} />
-          <Route path='/status' element={<StatusPage username={username} />} />
+          <Route path='/status' element={<StatusPage username={username} lastOrderId={lastOrderId} />} />
         </Routes>
       </Container>
     </BrowserRouter>
