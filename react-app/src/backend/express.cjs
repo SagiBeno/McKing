@@ -64,6 +64,43 @@ app.post("/login", (req, res) => {
 
 })
 
+app.post("/register", (req, res) => {
+    const {email, username, password} = req.body
+
+    conn.connect(connectError => {
+        if (connectError) console.log(connectError)
+            
+        else {
+            conn.query(`select username, email from felhasznalok where username="${username}" or email="${email}"`,
+                (err, result, fields) => {
+                    if(err) console.log(err)
+                    else {
+                        const existingEmail = result.find(u => u.email === email)
+                        const existingUsername = result.find(u => u.username === username)
+
+                        if(existingEmail) res.status(409).json({error: "Email already registered!"})
+                        else if(existingUsername) res.status(409).json({error: "Username already exists!"})
+                        else {
+                            //const hashedPassword = bcrypt.hashSync(password, 12)
+
+                            conn.query(`insert into felhasznalok (email, username, jelszo) values ("${email}","${username}","${password}")`,
+                                (err, result, field) => {
+                                    if(err) console.log(err)
+                                    
+                                    else {
+                                        res.status(201).json({invalidLogin: false, username: username})
+                                    }
+                                }
+                            )
+
+                        }
+                    }
+                }
+            )
+        }
+    })
+})
+
 app.get('/order/:id', (req, res) => {
     const id = +req.params.id;
 
