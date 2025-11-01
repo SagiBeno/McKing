@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Okt 31. 23:31
+-- Létrehozás ideje: 2025. Nov 01. 14:09
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -81,7 +81,7 @@ INSERT INTO `felhasznalok` (`id`, `username`, `email`, `jelszo`, `tipus`) VALUES
 
 CREATE TABLE `rendelesek` (
   `id` int(11) NOT NULL,
-  `rendelo` varchar(255) NOT NULL,
+  `rendelo_id` int(255) DEFAULT NULL,
   `aktiv` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
@@ -89,8 +89,20 @@ CREATE TABLE `rendelesek` (
 -- A tábla adatainak kiíratása `rendelesek`
 --
 
-INSERT INTO `rendelesek` (`id`, `rendelo`, `aktiv`) VALUES
-(0, 'JohnDoe', 1);
+INSERT INTO `rendelesek` (`id`, `rendelo_id`, `aktiv`) VALUES
+(3, 1, 1),
+(4, 1, 1),
+(5, 1, 1),
+(6, 1, 1),
+(7, 1, 1),
+(8, 1, 1),
+(9, 1, 1),
+(10, 1, 1),
+(11, 1, 1),
+(12, 1, 1),
+(13, 1, 1),
+(14, 1, 1),
+(15, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -110,7 +122,7 @@ CREATE TABLE `rendelt_elemek` (
 --
 
 INSERT INTO `rendelt_elemek` (`id`, `rendeles_id`, `elem_id`, `darab`) VALUES
-(0, 0, 2, 1);
+(0, 3, 2, 1);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -136,7 +148,7 @@ ALTER TABLE `felhasznalok`
 --
 ALTER TABLE `rendelesek`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_rendelo` (`rendelo`);
+  ADD KEY `idx_rendelo` (`rendelo_id`);
 
 --
 -- A tábla indexei `rendelt_elemek`
@@ -157,6 +169,18 @@ ALTER TABLE `etelek`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT a táblához `felhasznalok`
+--
+ALTER TABLE `felhasznalok`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT a táblához `rendelesek`
+--
+ALTER TABLE `rendelesek`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- Megkötések a kiírt táblákhoz
 --
 
@@ -164,7 +188,7 @@ ALTER TABLE `etelek`
 -- Megkötések a táblához `rendelesek`
 --
 ALTER TABLE `rendelesek`
-  ADD CONSTRAINT `rendelesek_ibfk_1` FOREIGN KEY (`rendelo`) REFERENCES `felhasznalok` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `rendelesek_ibfk_1` FOREIGN KEY (`rendelo_id`) REFERENCES `felhasznalok` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Megkötések a táblához `rendelt_elemek`
