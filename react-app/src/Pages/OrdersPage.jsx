@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Card } from "react-bootstrap";
+import OrderCardComponent from "../Components/OrderCardComponent";
 
 export default function OrdersPage() {
     const [orders, setOrders] = useState([]);
@@ -19,18 +19,7 @@ export default function OrdersPage() {
     return (
         <>
             {orders.map((order, index) => (
-                <Card className="my-3" key={index}>
-                    <Card.Header>Rendelés #{index + 1}</Card.Header>
-                    <Card.Body>
-                        <Card.Title>Rendelő: {order.rendelo}</Card.Title>
-                        <Card.Text>
-                            Rendelt tételek: {order.rendelt_tetelek}
-                        </Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
-                        Akítv: {order.aktiv ? 'Igen' : 'Nem'}
-                    </Card.Footer>
-                </Card>
+                <OrderCardComponent key={index} order={order} showAktiv={true} />
             ))}
         </>
     );

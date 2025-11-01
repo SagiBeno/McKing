@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom';
 import Spinner from '../Components/Spinner';
 import OrderCardComponent from '../Components/OrderCardComponent';
 
-export default function StatusPage () {
+export default function StatusPage (props) {
     const location = useLocation();
-    const orderId = location.state.orderId >= 0 ? location.state.orderId : -1;
+    const orderId = props.lastOrderId || -1;
     const [order, setOrder] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
 
