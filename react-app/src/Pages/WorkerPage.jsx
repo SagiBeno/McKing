@@ -4,9 +4,10 @@ import WorkersComponent from '../Components/WorkersComponent'
 import { useState } from 'react'
 
 export default function WorkerPage() {
+    const [workers, setWorkers] = useState([])
     const [showNewWorker, setShowNewWorker] = useState(false)
 
-    const handleShow = e => {
+    const handleShowForm = e => {
         let innerHTML = e.target.innerHTML
         if (innerHTML === 'Dolgozó felvételéhez kattintson ide') e.target.innerHTML = 'Mégse'
         else e.target.innerHTML = 'Dolgozó felvételéhez kattintson ide'
@@ -17,7 +18,7 @@ export default function WorkerPage() {
     return (
         <>
             <WorkersComponent />
-            <button type='button' onClick={handleShow} style={{margin: '20px auto 5px auto'}} className='workerButton'>Dolgozó felvételéhez kattintson ide</button>
+            <button type='button' onClick={handleShowForm} style={{margin: '20px auto 5px auto'}} className='workerButton'>Dolgozó felvételéhez kattintson ide</button>
             {
                 showNewWorker && 
                 <Card className='shadow mt-3'>

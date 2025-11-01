@@ -1,11 +1,8 @@
 import { Form } from "react-bootstrap";
 import { toast, ToastContainer } from 'react-toastify';
 import { useState } from "react";
-import Spinner from "./Spinner";
 
-export default function NewWorkerComponent() {
-    const [isLoading, setIsLoading] = useState(false)
-
+export default function NewWorkerComponent(props) {
     const handleData = e => {
         e.preventDefault();
 
@@ -22,20 +19,26 @@ export default function NewWorkerComponent() {
         }
 
         setIsLoading(true)
-        fetch('http://localhost:3333/', 
+        fetch('http://localhost:3333/new-worker', 
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username: username, email: email, password: password1 })
+                body: JSON.stringify({ username: username, email: email, password: password1, type: workerType })
             }
         )
         .then(async (response) => {
+            const status = response.status
+            if (status === 201) {
+                toast.success('A dolgozót sikeresen rögzítettük!')
+            }
 
+            else {
+                toast.error('A dolgozó rögzítése sikertelen')
+            }
         })
         .catch(console.warn)
-        .finally(setIsLoading(false))
     }
 
     return (
@@ -64,7 +67,6 @@ export default function NewWorkerComponent() {
                 <button type="submit" className="workerButton m-1">Dolgozó felvétele</button>
             </Form>
             <ToastContainer position="top-center" />
-            {isLoading && <Spinner />}
         </>    
     )
 }

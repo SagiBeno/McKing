@@ -48,7 +48,7 @@ export default function WorkersComponent() {
             },
             body: JSON.stringify([...deleteWorker])
         })
-        .then(res => {
+        .then(async (res) => {
             let status = res.status
             if (status === 204) {
                 setIsLoading(true)
@@ -59,7 +59,6 @@ export default function WorkersComponent() {
             }
         })
         .catch(console.warn)
-        .finally()
     }
 
     return (
