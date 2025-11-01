@@ -12,6 +12,7 @@ import OrdersPage from './Pages/OrdersPage';
 import RegistrationPage from './Pages/RegistrationPage';
 import StatusPage from './Pages/StatusPage';
 import NavbarComponent from './Components/NavbarComponent';
+import NewWorkerPage from './Pages/NewWorkerPage';
 
 import './App.css';
 
@@ -29,14 +30,15 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Container className="my-3">
-        {loggedIn && <NavbarComponent username={username} role={role} />}
+      <Container style={{marginTop: '35px'}}>
+        {loggedIn && <NavbarComponent username={username} role={role}/>}
         <Routes>
           <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
           <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
           <Route path='/order' element={<OrderPage username={username} setLastOrderId={setLastOrderId} />} />
           <Route path='/all-orders' element={<OrdersPage />} />
           <Route path='/status' element={<StatusPage username={username} lastOrderId={lastOrderId} />} />
+          <Route path='/new-worker' element={<NewWorkerPage />} />
         </Routes>
       </Container>
     </BrowserRouter>

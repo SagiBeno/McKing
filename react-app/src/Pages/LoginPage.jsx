@@ -8,7 +8,7 @@ export default function LoginPage(props) {
 
     return(
         <>
-            <h1>McKing - Bejelentkezés</h1>
+            <h1>Bejelentkezés</h1>
             <Card className="shadow">
                 <Card.Body>
                     <LoginComponent onLogin={handleLogin} />

@@ -2,6 +2,7 @@ import { Navbar, Nav, Container } from "react-bootstrap"
 import { Link } from "react-router-dom";
 
 export default function NavbarComponent(props) {
+
     return (
         <>
             <Navbar expand="lg" className="bg-body-tertiary" fixed="top">
@@ -24,11 +25,14 @@ export default function NavbarComponent(props) {
 
                             {(props.role === 'admin' || props.role === 'worker') && 
                             <Nav.Link as={Link} to="/all-orders">Jelenlegi rendelések</Nav.Link>}
+
+                            {props.role === 'admin' &&
+                            <Nav.Link as={Link} to="/new-worker">Új dolgozó felvétele</Nav.Link>}
                             
                         </Nav>
 
                         <Navbar.Text>
-                            Bejelentkezve: <Navbar.Brand as={Link} to="/" className="logoutButton" style={{padding:0}}>{props.username}</Navbar.Brand>
+                            Bejelenzkezve <a href="/">{props.username}</a>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>
