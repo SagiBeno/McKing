@@ -242,6 +242,19 @@ a:hover {
   border: 3px solid #0f2953;
 }
 
+.tableWrapper {
+  max-width: 500px;
+  overflow-x: scroll;
+}
+
+#workerDeleteButton {
+  color: red;
+  border: none;
+  background-color: white;
+  padding: 0px;
+  animation: pulse05 1.5s infinite;
+}
+
 @media (max-width: 900px) {
     .card-img {
       width: 100%;
