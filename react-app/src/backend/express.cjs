@@ -44,7 +44,7 @@ app.post("/login", (req, res) => {
     const {username, password} = req.body
     //console.log("Login data: ", username, password)
 
-    conn.query(`select * from felhasznalok where username="${username}" and jelszo="${password}"`,
+    conn.query(`select * from felhasznalok where username="${username}"`,
         async (err, result, fields) => {
             if (err) {
                 console.log(err)
@@ -53,8 +53,11 @@ app.post("/login", (req, res) => {
             else if (result) {
                 const users = [...result]
                 console.log(users)
+                /*const encryptedPassword = await bcrypt.compare(password, users[0].jelszo)
+                console.log(password)
+                console.log(users[0].jelszo)*/
 
-                if(users.length < 1) res.status(300).json({invalidLogin: true})
+                if(users.length < 1  || !(await bcrypt.compare(password, users[0].jelszo))) res.status(300).json({invalidLogin: true})
                 else {
                     res.status(200).json({invalidLogin: false, username: users[0].username, role: users[0].tipus})
                 }
@@ -67,39 +70,37 @@ app.post("/login", (req, res) => {
 app.post("/register", (req, res) => {
     const {email, username, password} = req.body
 
-    conn.connect(connectError => {
-        if (connectError) console.log(connectError)
-            
-        else {
-            conn.query(`select username, email from felhasznalok where username="${username}" or email="${email}"`,
-                (err, result, fields) => {
-                    if(err) console.log(err)
-                    else {
-                        const existingEmail = result.find(u => u.email === email)
-                        const existingUsername = result.find(u => u.username === username)
+    conn.query(`select username, email from felhasznalok where username="${username}" or email="${email}"`,
+        (err, result, fields) => {
+            if(err) console.log(err)
+            else {
+                const existingEmail = result.find(u => u.email === email)
+                const existingUsername = result.find(u => u.username === username)
 
-                        if(existingEmail) res.status(409).json({error: "Email already registered!"})
-                        else if(existingUsername) res.status(409).json({error: "Username already exists!"})
-                        else {
-                            //const hashedPassword = bcrypt.hashSync(password, 12)
+                if(existingEmail) res.status(409).json({error: "Email already registered!"})
+                else if(existingUsername) res.status(409).json({error: "Username already exists!"})
+                else {
+                    const hashedPassword = bcrypt.hashSync(password, 12)
+                    //console.log(hashedPassword)
 
-                            conn.query(`insert into felhasznalok (email, username, jelszo) values ("${email}","${username}","${password}")`,
-                                (err, result, field) => {
-                                    if(err) console.log(err)
-                                    
-                                    else {
-                                        res.status(201).json({invalidLogin: false, username: username})
-                                    }
-                                }
-                            )
-
+                    conn.query(`insert into felhasznalok (email, username, jelszo) values ("${email}","${username}","${hashedPassword}")`,
+                        (err, result, field) => {
+                            if(err) console.log(err)
+                            
+                            else {
+                                //console.log(username)
+                                res.status(201).json({invalidLogin: false, username: username})
+                            }
                         }
-                    }
+                    )
+
                 }
-            );
+            }
         }
-    })
-})
+    );
+        }
+    )
+
 
 app.get('/order/:id', (req, res) => {
     const id = +req.params.id;

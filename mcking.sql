@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Nov 01. 15:28
--- Kiszolgáló verziója: 10.4.28-MariaDB
--- PHP verzió: 8.2.4
+-- Létrehozás ideje: 2025. Nov 02. 11:28
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -70,8 +70,8 @@ CREATE TABLE `felhasznalok` (
 --
 
 INSERT INTO `felhasznalok` (`id`, `username`, `email`, `jelszo`, `tipus`) VALUES
-(1, 'JohnDoe', 'JohnDoe@example.com', '12345678', 'admin'),
-(2, 'JaneDoe', 'JaneDoe@example.com', '12345678', 'user');
+(1, 'JohnDoe', 'JohnDoe@example.com', '$2a$12$vAG14u7jlSgpTDhgpd4lyeH514Qdg/bcu23WLlRJm4hnPXZtvyA9e', 'admin'),
+(2, 'JaneDoe', 'JaneDoe@example.com', '$2a$12$uV.s.Lqev7nPBLn.u9dMA.87uCM7Snw6K46VjQ/JVR9q0ULt7Jrpy', 'user');
 
 -- --------------------------------------------------------
 
@@ -90,10 +90,22 @@ CREATE TABLE `rendelesek` (
 --
 
 INSERT INTO `rendelesek` (`id`, `rendelo_id`, `aktiv`) VALUES
+(3, 1, 1),
+(4, 1, 1),
+(5, 1, 1),
+(6, 1, 1),
+(7, 1, 1),
+(8, 1, 1),
+(9, 1, 1),
+(10, 1, 1),
+(11, 1, 1),
+(12, 1, 1),
+(13, 1, 1),
+(14, 1, 1),
+(15, 1, 1),
 (16, 1, 1),
-(22, 1, 1),
-(23, 1, 1),
-(24, 1, 1);
+(17, 2, 1),
+(18, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -113,15 +125,7 @@ CREATE TABLE `rendelt_elemek` (
 --
 
 INSERT INTO `rendelt_elemek` (`id`, `rendeles_id`, `elem_id`, `darab`) VALUES
-(1, 16, 1, 1),
-(2, 22, 2, 1),
-(3, 22, 4, 2),
-(4, 22, 7, 1),
-(5, 23, 5, 1),
-(6, 23, 9, 1),
-(7, 23, 10, 1),
-(8, 24, 1, 1),
-(9, 24, 4, 1);
+(0, 3, 2, 1);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -171,19 +175,13 @@ ALTER TABLE `etelek`
 -- AUTO_INCREMENT a táblához `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT a táblához `rendelesek`
 --
 ALTER TABLE `rendelesek`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT a táblához `rendelt_elemek`
---
-ALTER TABLE `rendelt_elemek`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Megkötések a kiírt táblákhoz

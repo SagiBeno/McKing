@@ -19,7 +19,7 @@ export default function OrderCardComponent({order, showAktiv, adminButtons}) {
                 </Card.Text>
             </Card.Body>
             {showAktiv && <Card.Footer>
-                Akítv: {order.aktiv ? 'Igen' : 'Nem'}
+                Aktív: {order.aktiv ? 'Igen' : 'Nem'}
             </Card.Footer>}
             {adminButtons && (
                 <div>
