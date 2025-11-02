@@ -44,7 +44,7 @@ app.post("/login", (req, res) => {
     const {username, password} = req.body
     //console.log("Login data: ", username, password)
 
-    conn.query(`select * from felhasznalok where username="${username}" and jelszo="${password}"`,
+    conn.query(`select * from felhasznalok where username="${username}"`,
         async (err, result, fields) => {
             if (err) {
                 console.log(err)
@@ -52,9 +52,10 @@ app.post("/login", (req, res) => {
             }
             else if (result) {
                 const users = [...result]
-                console.log(users)
+                console.log(password)
+                console.log(users[0].password)
 
-                if(users.length < 1) res.status(300).json({invalidLogin: true})
+                if(users.length < 1 || !(await bcrypt.compare(password, users[0].password))) res.status(300).json({invalidLogin: true})
                 else {
                     res.status(200).json({invalidLogin: false, username: users[0].username, role: users[0].tipus})
                 }
