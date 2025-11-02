@@ -1,0 +1,313 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 1rem;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.deleteButton {
+  background-color: #ab1700;
+}
+
+.appendButton {
+  background-color: #0f2953;
+}
+
+.orderButton {
+  margin: 5px;
+  border-radius: 5px;
+  padding: 0px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  width: 31px;
+  height: 31px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+i {
+  pointer-events: none;
+  color: white;
+}
+
+.orderButton:hover {
+  animation: pulse25 1.5s infinite;
+}
+
+.quantityDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-img {
+  border-radius: 20px;
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
+
+.orderCard {
+  width: 300px;
+}
+
+.orderCardDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.orderSubmitButton {
+  margin: 0 auto;
+  background-color: #ffd100;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 20px;
+  color: black;
+}
+
+.orderSubmitButton:hover {
+  font-weight: bold;
+  animation: pulse05 1.5s infinite;
+}
+
+.loginButton, .workerButton {
+  background-color: #ffd100;
+  color: black;
+  border: none;
+  font-size: 20px;
+  border-radius: 10px;
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+.loginButton:hover, .workerButton:hover {
+  animation: pulse05 1.5s infinite;
+  font-weight: bold;
+}
+
+#guestButton {
+  background-color: #0f2953;
+  color: black;
+  border: none;
+  font-size: 20px;
+  border-radius: 10px;
+  color: white;
+  width: 260px;
+  margin: 0 auto;
+}
+
+#guestButton:hover {
+  animation: pulse05 1.5s infinite;
+  font-weight: bold;
+}
+
+form {
+  font-size: 20px;
+}
+
+a {
+ color: #0f2953;
+ text-decoration: none;
+}
+
+a:hover {
+  color: #ab1700;
+  font-weight: bold;
+}
+
+.navbar {
+  background-color: #ffd100 !important;
+}
+
+.sidebar {
+  margin-top: 56px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: rgba(255, 209, 0, 0.7);
+  padding-top: 60px;
+  overflow-x: hidden;
+  z-index: 1;
+  transition: all 0.7s;
+}
+
+#sidebarOpenButton {
+  margin-top: 65px;
+  margin-right: 10px;
+  padding: 5px;
+  position: fixed;
+  cursor: pointer;
+  top: 0;
+}
+
+#sidebarOpenButton:hover {
+  animation: pulse25 2s infinite;
+}
+
+#sidebarCloseButton {
+  margin-top: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+#sidebarCloseButton:hover {
+  animation: pulse25 2s infinite;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebarContent > button {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  width: 170px;
+  background-color: rgb(193, 26, 1);
+  color: white;
+}
+
+.sidebarContent > button:hover {
+  animation: pulse05 1.5s infinite;
+}
+
+.newWorkerComponent {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.newWorkerComponent > input {
+  margin-bottom: 15px;
+  background-color: white;
+  padding: 5px;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid #ffd100;
+}
+
+.newWorkerComponent > input:focus-visible {
+  border: 3px solid #0f2953;
+}
+
+.tableWrapper {
+  max-width: 700px;
+  overflow-x: hidden;
+}
+
+#workerDeleteButton {
+  color: red;
+  border: none;
+  background: none;
+  padding: 0px;
+}
+
+#workerDeleteButton:hover {
+  animation: pulse25 1.5s infinite;
+}
+
+.trashIcon {
+  color: red;
+}
+
+@media (max-width: 900px) {
+    .card-img {
+      width: 100%;
+      height: 30vw;
+      object-fit: cover;
+    }
+
+    .tableWrapper {
+      overflow-x: scroll;
+    }
+}
+
+@media (max-width: 500px) {
+    .card-img {
+      width: 100%;
+      height: 50vw;
+      object-fit: cover;
+    }
+
+    form {
+      font-size: 15px;
+    }
+}
+
+@keyframes pulse05 {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse25 {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
