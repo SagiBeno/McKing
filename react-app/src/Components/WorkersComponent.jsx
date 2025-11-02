@@ -33,7 +33,7 @@ export default function WorkersComponent(props) {
                                     <td className="align-middle" style={{textAlign: 'left'}}>{element.username}</td>
                                     <td className="align-middle" style={{textAlign: 'left'}}>{element.email}</td>
                                     <td className="align-middle" style={{textAlign: 'left'}}>{element.tipus}</td>
-                                    <td className="align-middle" style={{textAlign: 'center'}}><button value={element.id} type="button" onClick={handleButtonValue} id="workerDeleteButton"><i className="fa-solid fa-trash fa-lg"></i></button></td>
+                                    <td className="align-middle" style={{textAlign: 'center'}}><button value={element.id} type="button" onClick={handleButtonValue} id="workerDeleteButton"><i className="fa-solid fa-trash fa-lg trashIcon"></i></button></td>
                                 </tr>
                             ))
                         }

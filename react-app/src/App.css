@@ -260,6 +260,10 @@ a:hover {
   animation: pulse25 1.5s infinite;
 }
 
+.trashIcon {
+  color: red;
+}
+
 @media (max-width: 900px) {
     .card-img {
       width: 100%;
