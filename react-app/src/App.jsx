@@ -28,13 +28,19 @@ export default function App() {
     setRole(data.role)
   }
 
+  const handleRegister = data => {
+    setLoggedIn(true)
+    setUsername(data)
+    setRole('user')
+  }
+
   return (
     <BrowserRouter>
       <Container style={{marginTop: '35px'}}>
         {loggedIn && <NavbarComponent username={username} role={role}/>}
         <Routes>
           <Route path="/" element={loggedIn ? <Navigate to="/order" /> : <LoginPage onLogin={handleLogin} />} />
-          <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
+          <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleRegister} />} /> {/* Login after registration */}
           <Route path='/order' element={<OrderPage username={username} setLastOrderId={setLastOrderId} />} />
           <Route path='/all-orders' element={<OrdersPage />} />
           <Route path='/status' element={<StatusPage username={username} lastOrderId={lastOrderId} />} />
