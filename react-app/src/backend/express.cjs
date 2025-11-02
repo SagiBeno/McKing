@@ -57,7 +57,7 @@ app.post("/login", (req, res) => {
                 console.log(password)
                 console.log(users[0].jelszo)*/
 
-                if(/*users.length < 1  ||*/ !(encryptedPassword)) console.log("NEM SIKER") //res.status(300).json({invalidLogin: true})
+                if(users.length < 1  || !(await bcrypt.compare(password, users[0].jelszo))) res.status(300).json({invalidLogin: true})
                 else {
                     res.status(200).json({invalidLogin: false, username: users[0].username, role: users[0].tipus})
                 }
