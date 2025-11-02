@@ -1,6 +1,14 @@
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 
-export default function OrderCardComponent({order, showAktiv}){
+export default function OrderCardComponent({order, showAktiv, adminButtons}) {
+    const handleComplete = () => {
+        // Teljesítés logika
+    }
+
+    const handleDelete = () => {
+        // Törlés logika
+    }
+
     return(
         <Card className="my-3">
             <Card.Header>Rendelés #{order.id}</Card.Header>
@@ -13,6 +21,12 @@ export default function OrderCardComponent({order, showAktiv}){
             {showAktiv && <Card.Footer>
                 Akítv: {order.aktiv ? 'Igen' : 'Nem'}
             </Card.Footer>}
+            {adminButtons && (
+                <div>
+                    <Button variant="success" onClick={handleComplete}>Teljesítés</Button>
+                    <Button variant="danger" onClick={handleDelete}>Törlés</Button>
+                </div>
+                )}
         </Card>
     )
 }

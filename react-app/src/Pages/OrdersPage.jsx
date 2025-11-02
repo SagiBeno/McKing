@@ -19,7 +19,7 @@ export default function OrdersPage() {
     return (
         <>
             {orders.map((order, index) => (
-                <OrderCardComponent key={index} order={order} showAktiv={true} />
+                <OrderCardComponent key={index} order={order} showAktiv={true} adminButtons={true} />
             ))}
         </>
     );
