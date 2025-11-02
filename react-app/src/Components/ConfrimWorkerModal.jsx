@@ -3,7 +3,10 @@ import { Modal, Button } from 'react-bootstrap'
 
 export default function ConfrimWorkerModal(props) {
     const [showModal, setShowModal] = useState(true)
-    const worker  = props.data
+    
+    const title = props.data.title
+    const message = props.data.message
+    const list = props.data.items
 
     const handleCloseModal = () => {
         setShowModal(false)
@@ -18,17 +21,19 @@ export default function ConfrimWorkerModal(props) {
     return (
         <Modal show={showModal} onHide={handleCloseModal} centered>
             <Modal.Header closeButton>
-              <Modal.Title>Törlés megerősítése</Modal.Title>
+              <Modal.Title>{title} megerősítése</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Szeretné törölni az alábbi dolgozót: 
-              {worker.map((element, idx) => (
-                <ul key={idx}>
-                  <li><strong>Felhasználónév: </strong>{element.username}</li>
-                  <li><strong>E-mail cím: </strong>{element.email}</li>
-                  <li><strong>Munkakör: </strong>{element.tipus}</li>
-                </ul>
-              ))}
+              {message}
+              <ul>
+                {
+                  list.map((element, idx) => (
+                    <li key={idx}><strong>{element.label}</strong> {element.value}</li>
+                  ))
+                }
+              </ul>
+              
+              
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseModal}>

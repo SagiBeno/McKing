@@ -110,7 +110,7 @@ export default function OrderPage(props) {
                     }
                 </Row>
                 <button type="submit" className="orderSubmitButton shadow">Rendelés leadása</button>
-                <h5>Fizetendő: {price} Ft</h5>
+                <h5 className='mt-3'>Fizetendő: {price} Ft</h5>
             </Form>
 
             {isLoading && <Spinner />}

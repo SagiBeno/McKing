@@ -39,11 +39,24 @@ export default function WorkerPage() {
 
     const handleButtonValue = data => {
         const id = data
-        var worker = []
+        var worker = {
+            title: 'Törlés',
+            workerData: [],
+            message: 'Szeretné törölni az alábbi dolgozót:',
+            items: []
+        }
         workers.map((element, idx) => {
-            if (element.id === id) worker.push(element) 
+            if (element.id === id) {
+                worker.items = [
+                    {label: 'Felhasználónév:', value: element.username},
+                    {label: 'E-mail cím:', value: element.email},
+                    {label: 'Munkakör:', value: element.tipus}
+                ]
+                    
+                worker.workerData.push(element)
+            }
         })
-        setDeleteWorker([...worker])
+        setDeleteWorker({...worker})
         setShowModal(true)
     }
 
@@ -58,7 +71,7 @@ export default function WorkerPage() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify([...deleteWorker])
+            body: JSON.stringify([...deleteWorker.workerData])
         })
         .then(async (res) => {
             let status = res.status

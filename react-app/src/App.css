@@ -67,6 +67,7 @@
 
 i {
   pointer-events: none;
+  color: white;
 }
 
 .orderButton:hover {
@@ -214,6 +215,7 @@ a:hover {
   border-radius: 10px;
   width: 170px;
   background-color: rgb(193, 26, 1);
+  color: white;
 }
 
 .sidebarContent > button:hover {
@@ -256,6 +258,10 @@ a:hover {
 
 #workerDeleteButton:hover {
   animation: pulse25 1.5s infinite;
+}
+
+.trashIcon {
+  color: red;
 }
 
 @media (max-width: 900px) {
