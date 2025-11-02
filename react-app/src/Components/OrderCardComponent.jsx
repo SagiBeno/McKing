@@ -1,12 +1,12 @@
 import { Card, Button } from 'react-bootstrap';
 
-export default function OrderCardComponent({order, showAktiv, adminButtons}) {
+export default function OrderCardComponent({order, showAktiv, adminButtons, onComplete, onDelete}) {
     const handleComplete = () => {
-        // Teljesítés logika
+        onComplete(order.id);
     }
 
     const handleDelete = () => {
-        // Törlés logika
+        onDelete(order.id);
     }
 
     return(

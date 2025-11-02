@@ -306,6 +306,45 @@ app.delete('/delete-worker', (req, res) => {
     )
 })
 
+app.delete('/delete-order/:id', (req, res) => {
+    const id = +req.params.id;
+
+    conn.query(`delete from rendelesek where id = ?`, [id],
+        (err, result, fields) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+                return;
+            }
+            else{
+                conn.query(`delete from rendelt_elemek where rendeles_id = ?`, [id],
+                    (err, result, fields) => {
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(500);
+                            return;
+                        }
+                        res.sendStatus(204);
+                    }
+                );
+            }
+        })
+});
+
+app.patch('/complete-order/:id', (req, res) => {
+    const id = +req.params.id;
+    conn.query(`update rendelesek set aktiv = 0 where id = ?`, [id],
+        (err, result, fields) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+                return;
+            }
+            res.sendStatus(204);
+        }
+    );
+});
+
 const port = 3333;
 app.listen(port, () => {
   console.log(`Szerver mükszik itt: ${port}`);

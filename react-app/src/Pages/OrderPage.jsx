@@ -75,6 +75,8 @@ export default function OrderPage(props) {
 
                     props.setLastOrderId(data.id);
 
+                    setIsLoading(false);
+
                     navigate('/status')
                 } 
                 else {
