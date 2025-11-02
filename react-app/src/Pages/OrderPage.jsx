@@ -7,6 +7,7 @@ import Spinner from '../Components/Spinner';
 import SidebarComponent from '../Components/SidebarComponent';
 
 export default function OrderPage(props) {
+    const [price, setPrice] = useState(0);
     const [order, setOrder] = useState({})
     const [foods, setFoods] = useState([])
     const [filteredFoods, setFilteredFoods] = useState([])
@@ -21,13 +22,17 @@ export default function OrderPage(props) {
 
             setFoods(data)
             setFilteredFoods(data)
-            console.log(data)
+            //console.log(data)
         })
         .catch(err => {
             console.log("Hiba az adatok lekérése során: ", err)
         })
         .finally(() => setIsLoading(false))
     }, [])
+
+    const handleOverallPrice = overallPrice => {
+        setPrice(price + overallPrice)
+    }
 
     const handleOrder = data => {
         const newOrder = { ...order }
@@ -68,7 +73,9 @@ export default function OrderPage(props) {
 
                     console.log(data)
 
-                    navigate('/status', { state: { orderId: data.id } })
+                    props.setLastOrderId(data.id);
+
+                    navigate('/status')
                 } 
                 else {
                     toast.error('Hiba történt a rendelés leadása során!')
@@ -96,11 +103,12 @@ export default function OrderPage(props) {
 
                      {
                         filteredFoods.map( (element, key) => (
-                            <OrderComponent key={key} element={element} onOrderChange={handleOrder} />
+                            <OrderComponent key={key} element={element} onOrderChange={handleOrder} overallPrice={handleOverallPrice} />
                         ))
                     }
                 </Row>
                 <button type="submit" className="orderSubmitButton shadow">Rendelés leadása</button>
+                <h5>Fizetendő: {price} Ft</h5>
             </Form>
 
             {isLoading && <Spinner />}

@@ -65,7 +65,7 @@
   color: white;
 }
 
-.orderButton i {
+i {
   pointer-events: none;
 }
 
@@ -114,17 +114,17 @@
   animation: pulse05 1.5s infinite;
 }
 
-.loginButton {
+.loginButton, .workerButton {
   background-color: #ffd100;
   color: black;
   border: none;
   font-size: 20px;
   border-radius: 10px;
-  width: 260px;
+  max-width: 260px;
   margin: 0 auto;
 }
 
-.loginButton:hover {
+.loginButton:hover, .workerButton:hover {
   animation: pulse05 1.5s infinite;
   font-weight: bold;
 }
@@ -177,7 +177,7 @@ a:hover {
 }
 
 #sidebarOpenButton {
-  margin-top: 60px;
+  margin-top: 65px;
   margin-right: 10px;
   padding: 5px;
   position: fixed;
@@ -190,6 +190,7 @@ a:hover {
 }
 
 #sidebarCloseButton {
+  margin-top: 5px;
   position: absolute;
   top: 0;
   right: 0;
@@ -219,11 +220,53 @@ a:hover {
   animation: pulse05 1.5s infinite;
 }
 
+.newWorkerComponent {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.newWorkerComponent > input {
+  margin-bottom: 15px;
+  background-color: white;
+  padding: 5px;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid #ffd100;
+}
+
+.newWorkerComponent > input:focus-visible {
+  border: 3px solid #0f2953;
+}
+
+.tableWrapper {
+  max-width: 700px;
+  overflow-x: hidden;
+}
+
+#workerDeleteButton {
+  color: red;
+  border: none;
+  background: none;
+  padding: 0px;
+}
+
+#workerDeleteButton:hover {
+  animation: pulse25 1.5s infinite;
+}
+
 @media (max-width: 900px) {
     .card-img {
       width: 100%;
       height: 30vw;
       object-fit: cover;
+    }
+
+    .tableWrapper {
+      overflow-x: scroll;
     }
 }
 

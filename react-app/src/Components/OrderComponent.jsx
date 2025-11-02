@@ -9,6 +9,7 @@ export default function OrderComponent(props) {
 
         setQuantity(quantity + 1)
         props.onOrderChange({ id: props.element.id, name: props.element.nev, quantity: quantity + 1 })
+        props.overallPrice(props.element.ar)
     }
 
     const handleRemove = e => {
@@ -17,6 +18,7 @@ export default function OrderComponent(props) {
         if (quantity > 0) {
             setQuantity(quantity - 1)
             props.onOrderChange({ id: props.element.id, name: props.element.nev, quantity: quantity - 1 })
+            props.overallPrice(-props.element.ar)
         }
 
     }
