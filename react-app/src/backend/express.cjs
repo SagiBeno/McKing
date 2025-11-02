@@ -84,9 +84,9 @@ app.post("/register", (req, res) => {
                         if(existingEmail) res.status(409).json({error: "Email already registered!"})
                         else if(existingUsername) res.status(409).json({error: "Username already exists!"})
                         else {
-                            //const hashedPassword = bcrypt.hashSync(password, 12)
+                            const hashedPassword = bcrypt.hashSync(password, 12)
 
-                            conn.query(`insert into felhasznalok (email, username, jelszo) values ("${email}","${username}","${password}")`,
+                            conn.query(`insert into felhasznalok (email, username, jelszo) values ("${email}","${username}","${hashedPassword}")`,
                                 (err, result, field) => {
                                     if(err) console.log(err)
                                     
