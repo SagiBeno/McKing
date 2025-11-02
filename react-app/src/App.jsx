@@ -37,7 +37,7 @@ export default function App() {
           <Route path="/register" element={loggedIn ? <Navigate to="/order" /> : <RegistrationPage onRegister={handleLogin} />} /> {/* Login after registration */}
           <Route path='/order' element={<OrderPage username={username} setLastOrderId={setLastOrderId} />} />
           <Route path='/all-orders' element={<OrdersPage />} />
-          <Route path='/status' element={<StatusPage username={username} />} />
+          <Route path='/status' element={<StatusPage username={username} lastOrderId={lastOrderId} />} />
           <Route path='/worker' element={<WorkerPage />} />
         </Routes>
       </Container>

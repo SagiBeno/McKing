@@ -5,7 +5,15 @@ import OrderCardComponent from '../Components/OrderCardComponent';
 
 export default function StatusPage (props) {
     const location = useLocation();
-    const orderId = props.lastOrderId || -1;
+    let orderId;
+
+    if(location.state === null){
+        orderId = props.lastOrderId;
+    } 
+    else {
+        orderId = location.state.id;
+    }
+
     const [order, setOrder] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
 
@@ -14,6 +22,7 @@ export default function StatusPage (props) {
         if (orderId === -1) {
             return;
         }
+
         fetch(`http://localhost:3333/order/${orderId}`)
         .then(async res =>{
             const data = await res.json()
