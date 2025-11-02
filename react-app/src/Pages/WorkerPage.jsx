@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap'
 import NewWorkerComponent from '../Components/NewWorkerComponent'
 import WorkersComponent from '../Components/WorkersComponent'
 import Spinner from '../Components/Spinner'
-import ConfrimWorkerModal from '../Components/ConfrimWorkerModal'
+import ConfirmModal from '../Components/ConfirmModal'
 import { toast, ToastContainer } from 'react-toastify';
 
 export default function WorkerPage() {
@@ -130,7 +130,7 @@ export default function WorkerPage() {
                 </Card>
             }
             {isLoading && <Spinner />}
-            {showModal && <ConfrimWorkerModal onConfirm={handleDelete} onShow={handleCloseModal} data={deleteWorker}/>}
+            {showModal && <ConfirmModal onConfirm={handleDelete} onShow={handleCloseModal} data={deleteWorker}/>}
             <ToastContainer position="top-center"/>
         </>
     )

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Modal, Button } from 'react-bootstrap'
 
-export default function ConfrimWorkerModal(props) {
+export default function ConfirmModal(props) {
     const [showModal, setShowModal] = useState(true)
     
     const title = props.data.title
