@@ -181,25 +181,19 @@ app.post('/order', (req, res) => {
     const newOrder = req.body;
 
     // basic validation
-    if (!newOrder || !newOrder.user) {
+    if (!newOrder) {
         res.sendStatus(400);
         return;
     }
 
-    // bejelentkezett rendeles
-    conn.query(`select id from felhasznalok where username = ?`, [newOrder.user],
-        (err, result, fields) => {
+    if(newOrder.user === ''){
+        // vendeg rendeles
+        conn.query(`select id from felhasznalok where username = 'Vendég'`, (err, result) => {
             if (err) {
                 console.log(err);
                 res.sendStatus(500);
                 return;
             }
-
-            if (!result || result.length < 1) {
-                res.status(404).json({ error: 'User not found' });
-                return;
-            }
-
             const userId = result[0].id;
 
             conn.query(`insert into rendelesek (rendelo_id, aktiv) values (?, 1)`, [userId],
@@ -209,7 +203,6 @@ app.post('/order', (req, res) => {
                         res.sendStatus(500);
                         return;
                     }
-
                     const orderId = insertResult.insertId;
 
                     // insert order items
@@ -232,8 +225,58 @@ app.post('/order', (req, res) => {
                     return;
                 }
             );
-        }
-    );
+        });
+    }
+    else{
+        // bejelentkezett rendeles
+        conn.query(`select id from felhasznalok where username = ?`, [newOrder.user],
+            (err, result, fields) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                if (!result || result.length < 1) {
+                    res.status(404).json({ error: 'User not found' });
+                    return;
+                }
+
+                const userId = result[0].id;
+
+                conn.query(`insert into rendelesek (rendelo_id, aktiv) values (?, 1)`, [userId],
+                    (err, insertResult, fields) => {
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(500);
+                            return;
+                        }
+
+                        const orderId = insertResult.insertId;
+
+                        // insert order items
+                        for (const key in newOrder.order) {
+                            const elemId = Number(key);
+                            const quantity = newOrder.order[key] && newOrder.order[key].quantity ? newOrder.order[key].quantity : 0;
+
+                            conn.query(
+                                `insert into rendelt_elemek (rendeles_id, elem_id, darab) values (?, ?, ?)`,
+                                [orderId, elemId, quantity],
+                                (err, qRes, qFields) => {
+                                    if (err) {
+                                        console.log('Error inserting order item:', err);
+                                    }
+                                }
+                            );
+                        }
+
+                        res.status(201).json({ id: orderId }); //visszaadjuk a rendelés id-t
+                        return;
+                    }
+                );
+            }
+        );
+    }
 });
 
 app.post('/new-worker', (req, res) => {
@@ -305,6 +348,45 @@ app.delete('/delete-worker', (req, res) => {
         }
     )
 })
+
+app.delete('/delete-order/:id', (req, res) => {
+    const id = +req.params.id;
+
+    conn.query(`delete from rendelesek where id = ?`, [id],
+        (err, result, fields) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+                return;
+            }
+            else{
+                conn.query(`delete from rendelt_elemek where rendeles_id = ?`, [id],
+                    (err, result, fields) => {
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(500);
+                            return;
+                        }
+                        res.sendStatus(204);
+                    }
+                );
+            }
+        })
+});
+
+app.patch('/complete-order/:id', (req, res) => {
+    const id = +req.params.id;
+    conn.query(`update rendelesek set aktiv = 0 where id = ?`, [id],
+        (err, result, fields) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+                return;
+            }
+            res.sendStatus(204);
+        }
+    );
+});
 
 const port = 3333;
 app.listen(port, () => {
