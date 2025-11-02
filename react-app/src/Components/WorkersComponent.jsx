@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import ConfrimWorkerModal from "./ConfrimWorkerModal";
 
 export default function WorkersComponent(props) {
     const workers = props?.data

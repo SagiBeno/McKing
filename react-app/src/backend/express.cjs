@@ -39,7 +39,6 @@ app.get('/foods', (req, res) => {
         })     
 });
 
-//TODO - megcsinálni a jelszót bcrypt-tel
 app.post("/login", (req, res) => {
     const {username, password} = req.body
     //console.log("Login data: ", username, password)

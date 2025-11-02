@@ -19,14 +19,14 @@ export default function OrderCardComponent({order, showAktiv, adminButtons, onCo
                 </Card.Text>
             </Card.Body>
             {showAktiv && <Card.Footer>
-                Aktív: {order.aktiv ? 'Igen' : 'Nem'}
+                Állapot: {order.aktiv ? 'Folyamatban' : 'Teljesített'}
             </Card.Footer>}
-            {adminButtons && (
+            {adminButtons && 
                 <div>
-                    <Button variant="success" onClick={handleComplete}>Teljesítés</Button>
+                    {order.aktiv ? <Button variant="success" onClick={handleComplete} style={{marginRight: '5px'}}>Teljesítés</Button> : ''}
                     <Button variant="danger" onClick={handleDelete}>Törlés</Button>
                 </div>
-                )}
+            }
         </Card>
     )
 }
