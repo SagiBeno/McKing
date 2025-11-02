@@ -130,7 +130,7 @@ export default function WorkerPage() {
                 </Card>
             }
             {isLoading && <Spinner />}
-            {showModal && <ConfrimWorkerModal show={showModal} onConfirm={handleDelete} onShow={handleCloseModal} data={deleteWorker}/>}
+            {showModal && <ConfrimWorkerModal onConfirm={handleDelete} onShow={handleCloseModal} data={deleteWorker}/>}
             <ToastContainer position="top-center"/>
         </>
     )
