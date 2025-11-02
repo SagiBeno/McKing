@@ -32,7 +32,7 @@ export default function NavbarComponent(props) {
                         </Nav>
 
                         <Navbar.Text>
-                            Bejelenzkezve <a href="/">{props.username}</a>
+                            Bejelentkezve <a href="/">{props.username}</a>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>
